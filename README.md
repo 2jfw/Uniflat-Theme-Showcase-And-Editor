@@ -4,12 +4,12 @@ This is the Adobe / Harman AIR preview of the as3 Feathers / Starling "Uniflat T
 
 Compatible with latest Starling 2.6 and Feathers 4.1.1
 
-## Releases
+### Releases
 
 - Windows x86 EXE file (AIR Captive Runtime)
 - Android APK (AIR Captive Runtime)
 
-## Preview
+### Preview
 
 ![](preview/Screenshot00.png?raw=true)
 ![](preview/Screenshot01.png?raw=true)
@@ -28,7 +28,11 @@ Compatible with latest Starling 2.6 and Feathers 4.1.1
 ![](preview/Screenshot14.png?raw=true)
 ![](preview/Screenshot15.png?raw=true)
 
-## Credits
+### Compile
+
+- Requires as3 Starling and Feathers
+
+### Credits
 
 Author: https://github.com/marpies
 
