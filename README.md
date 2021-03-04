@@ -11,22 +11,22 @@ Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ## Preview
 
-![](Screenshot00.png?raw=true)
-![](Screenshot01.png?raw=true)
-![](Screenshot02.png?raw=true)
-![](Screenshot03.png?raw=true)
-![](Screenshot04.png?raw=true)
-![](Screenshot05.png?raw=true)
-![](Screenshot06.png?raw=true)
-![](Screenshot07.png?raw=true)
-![](Screenshot08.png?raw=true)
-![](Screenshot09.png?raw=true)
-![](Screenshot10.png?raw=true)
-![](Screenshot11.png?raw=true)
-![](Screenshot12.png?raw=true)
-![](Screenshot13.png?raw=true)
-![](Screenshot14.png?raw=true)
-![](Screenshot15.png?raw=true)
+![](preview/Screenshot00.png?raw=true)
+![](preview/Screenshot01.png?raw=true)
+![](preview/Screenshot02.png?raw=true)
+![](preview/Screenshot03.png?raw=true)
+![](preview/Screenshot04.png?raw=true)
+![](preview/Screenshot05.png?raw=true)
+![](preview/Screenshot06.png?raw=true)
+![](preview/Screenshot07.png?raw=true)
+![](preview/Screenshot08.png?raw=true)
+![](preview/Screenshot09.png?raw=true)
+![](preview/Screenshot10.png?raw=true)
+![](preview/Screenshot11.png?raw=true)
+![](preview/Screenshot12.png?raw=true)
+![](preview/Screenshot13.png?raw=true)
+![](preview/Screenshot14.png?raw=true)
+![](preview/Screenshot15.png?raw=true)
 
 ## Credits
 
