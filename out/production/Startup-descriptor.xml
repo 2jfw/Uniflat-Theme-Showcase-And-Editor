@@ -1,0 +1,12 @@
+<application xmlns="http://ns.adobe.com/air/application/33.1">
+  <id>Uniflat-Theme-ShowCase</id>
+  <filename>Uniflat Theme ShowCase</filename>
+  <name>Uniflat Theme ShowCase (Feathers / Starling)</name>
+  <versionNumber>1.0.0</versionNumber>
+  <initialWindow>
+    <content>Startup.swf</content>
+    <visible>true</visible>
+    <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
+  </initialWindow>
+</application>

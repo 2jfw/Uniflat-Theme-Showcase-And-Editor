@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<application xmlns="http://ns.adobe.com/air/application/19.0">
+
+	<id>com.marpies.feathersdemo</id>
+	<filename>Feathers Demo</filename>
+	<name>Feathers Demo</name>
+	<versionNumber>1.3.0</versionNumber>
+
+	<initialWindow>
+		<content>Main.swf</content>
+		<visible>true</visible>
+		<depthAndStencil>true</depthAndStencil>
+		<aspectRatio>landscape</aspectRatio>
+		<autoOrients>false</autoOrients>
+		<fullScreen>true</fullScreen>
+		<renderMode>direct</renderMode>
+	</initialWindow>
+
+	<iPhone>
+		<InfoAdditions>
+			<![CDATA[
+            <key>UIDeviceFamily</key>
+            <array>
+                <!-- iPhone and iPod touch devices -->
+                <string>1</string>
+                <!-- iPad devices -->
+                <string>2</string>
+            </array>
+            ]]>
+		</InfoAdditions>
+
+		<requestedDisplayResolution>high</requestedDisplayResolution>
+	</iPhone>
+
+	<android>
+		<manifestAdditions>
+			<![CDATA[
+            <manifest android:installLocation="auto">
+            </manifest>
+            ]]>
+		</manifestAdditions>
+		<containsVideo>true</containsVideo>
+	</android>
+
+</application>

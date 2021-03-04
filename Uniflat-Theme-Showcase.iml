@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="Flex" version="4">
+  <component name="FlexBuildConfigurationManager" active="Uniflat-Theme-Showcase Desktop">
+    <configurations>
+      <configuration name="Uniflat-Theme-Showcase Desktop" target-platform="Desktop" pure-as="true" main-class="Startup" output-file="Uniflat-Theme-Showcase.swf" output-folder="$MODULE_DIR$/out/production">
+        <dependencies>
+          <entries>
+            <entry library-id="216a4905-dd2a-4a29-a388-80a867ff559e">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="a8403f36-afd5-45e3-abba-dbb431f6eb40">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="33.1.1.345" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflar-Theme-Editor" />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+      <configuration name="Uniflat-Theme-Showcase-Mobile" target-platform="Mobile" pure-as="true" main-class="Startup" output-file="Uniflat-Theme-Showcase-Mobile-Android.swf" output-folder="$MODULE_DIR$/out/production">
+        <dependencies>
+          <entries>
+            <entry library-id="28fced1f-d61c-40e1-afe3-560d5fe7fbba">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="e6ee18f9-dcb3-4748-88f7-e6e6267bb460">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="33.1.1.345" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-ShowCase-Mobile" />
+        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-ShowCase-Mobile" />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="jdk" jdkName="33.1.1.345" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="216a4905-dd2a-4a29-a388-80a867ff559e" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../Starling-Framework/starling/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="a8403f36-afd5-45e3-abba-dbb431f6eb40" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../feathersui-starling/source" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="28fced1f-d61c-40e1-afe3-560d5fe7fbba" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../Starling-Framework/starling/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="e6ee18f9-dcb3-4748-88f7-e6e6267bb460" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../feathersui-starling/source" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
