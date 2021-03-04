@@ -7,5 +7,4 @@ Credits:
 
 Author: https://github.com/marpies
 Theme: https://github.com/marpies/uniflat-theme
-
 Website: https://feathers.marpies.com/themes/uniflat/
