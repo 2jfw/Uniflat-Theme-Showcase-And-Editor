@@ -15,7 +15,7 @@
           <sdk name="33.1.1.345" />
         </dependencies>
         <compiler-options />
-        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflar-Theme-Editor" />
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-Showcase" />
         <packaging-android />
         <packaging-ios />
       </configuration>
@@ -34,7 +34,7 @@
         <compiler-options />
         <packaging-air-desktop />
         <packaging-android enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-ShowCase-Mobile" />
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-ShowCase-Mobile" />
+        <packaging-ios use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="Uniflat-Theme-ShowCase-Mobile" />
       </configuration>
     </configurations>
     <compiler-options />
