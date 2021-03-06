@@ -29,7 +29,7 @@ package com.marpies.demo.screens
 		{
 			super.initialize();
 
-			title = "SETTINGS";
+			title = "ITEM RENDERER";
 
 			layout      = new VerticalLayoutBuilder()
 					.setGap(20)
@@ -37,8 +37,8 @@ package com.marpies.demo.screens
 			clipContent = false;
 
 			/* Settings list */
-			var list : GroupedList   = new GroupedList();
-			list.dataProvider        = new HierarchicalCollection(
+			var list : GroupedList = new GroupedList();
+			list.dataProvider      = new HierarchicalCollection(
 					[
 						{
 							header:   {label: "SOUND"},

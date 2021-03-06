@@ -11,6 +11,9 @@
             <entry library-id="a8403f36-afd5-45e3-abba-dbb431f6eb40">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="31685f49-64cf-49b2-8af4-fd4806575cf7">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
           <sdk name="33.1.1.345" />
         </dependencies>
@@ -84,6 +87,17 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library type="flex">
+        <properties id="31685f49-64cf-49b2-8af4-fd4806575cf7" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../feathersui-starling/extensions" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/../feathersui-starling/extensions" recursive="false" />
       </library>
     </orderEntry>
   </component>

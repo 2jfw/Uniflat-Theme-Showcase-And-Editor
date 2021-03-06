@@ -21,6 +21,8 @@ package com.marpies.demo.screens
 		public static const TEXT_INPUT : String      = "textInput";
 		public static const TOGGLE : String          = "toggle";
 		public static const VIDEO_PLAYER : String    = "videoPlayer";
+		public static const EMPTY : String           = "empty";
+		public static const THEME_COLORS : String    = "themeColors";
 
 	}
 
