@@ -3,7 +3,6 @@ package
 
 	import com.marpies.demo.display.MenuList;
 	import com.marpies.demo.enums.UniflatColorTarget;
-	import com.marpies.demo.events.ColorChangeVO;
 	import com.marpies.demo.events.ScreenEvent;
 	import com.marpies.demo.screens.AlertCalloutScreen;
 	import com.marpies.demo.screens.AutoCompleteScreen;
@@ -23,6 +22,8 @@ package
 	import com.marpies.demo.screens.TextInputsScreen;
 	import com.marpies.demo.screens.ThemeColorConfigurationScreen;
 	import com.marpies.demo.screens.ToggleScreen;
+	import com.marpies.demo.vo.ColorChangeVO;
+	import com.marpies.demo.vo.ThemeColors;
 
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.Drawers;
@@ -38,6 +39,9 @@ package
 	import feathers.themes.UniflatMobileThemeColors;
 	import feathers.themes.UniflatMobileThemeWithIcons;
 
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+
 	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -45,6 +49,9 @@ package
 
 	public class Main extends Sprite
 	{
+
+		[Embed(source="/../assets/json/Default.json", mimeType="application/octet-stream")]
+		private static const DEFAULT_COLORS_JSON : Class;
 
 		private var mMenu : MenuList;
 		private var mDrawers : Drawers;
@@ -54,41 +61,39 @@ package
 		private var theme : BaseUniflatMobileTheme;
 		private var tempEmptryScreen : StackScreenNavigatorItem         = new StackScreenNavigatorItem(EmptyScreen);
 		private var uniflatMobileThemeColors : UniflatMobileThemeColors = new UniflatMobileThemeColors();
+		private var applyColorTimer : Timer                             = new Timer(250,
+		                                                                            1); // this timer prevents too frequent updates. Slightly hackish attempt..
+		private var colorChangeVO : ColorChangeVO;
 
 
 		public function Main()
 		{
 			super();
+
+			applyColorTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
+			                                 onCompleteTimerChangeColor);
 		}
 
 
 		private function initTheme() : void
 		{
-			changeThemeColors(UniflatMobileThemeColors.Builder
-			                                          .setColorStage(0x000000)
-			                                          .setColorBackground(0x000000)
-			                                          .setColorPrimary(0x00698C)
-			                                          .setColorPrimaryDisabled(0xB4ECEA)
-			                                          .setColorPrimaryContrast(0xFFFFFF)
-			                                          .setColorPrimaryContrastDisabled(0xFFFFFF)
-			                                          .setColorAlt(0xFF2D55)
-			                                          .setColorAltDisabled(0xFFC0CC)
-			                                          .setColorAltContrast(0xFFFFFF)
-			                                          .setColorAltContrastDisabled(0xFFFFFF)
-			                                          .setColorContrast(0x2B333A)
-			                                          .setColorContrastDisabled(0xB1B4B7)
-			                                          .build());
+			// Setting initial values seems to fix an issue where components would become white when changing colors
+			changeThemeColors(new ThemeColors().fromJSON(new DEFAULT_COLORS_JSON()).toUniflatMobileThemeColors());
 		}
 
 
-		public function changeThemeColors(value : UniflatMobileThemeColors) : void
+		public function changeThemeColors(value : UniflatMobileThemeColors = null) : void
 		{
-			uniflatMobileThemeColors = value;
+			if (value)
+			{
+				uniflatMobileThemeColors = value;
+			}
 
 			if (theme)
 			{
 				theme.dispose();
 			}
+
 
 			theme = new UniflatMobileThemeWithIcons(value);
 
@@ -97,18 +102,24 @@ package
 			{
 				mNavigator.resetStyleProvider();
 
-				resetCurrentScreen();
+				resetCurrentScreen(mNavigator);
 			}
 
-
-			if (mMenu)
-			{
-				mMenu.resetStyleProvider();
-			}
 
 			if (mDrawers)
 			{
 				mDrawers.resetStyleProvider();
+			}
+
+			if (mMenu)
+			{
+				mMenu.resetStyleProvider();
+
+				mMenu.invalidate();
+				mMenu.validate();
+
+				mMenu.dataProvider.refresh();
+				//				mMenu.createDP();
 			}
 		}
 
@@ -117,16 +128,16 @@ package
 		 * This will inject a temporary empty screen, then revert back to the previous screen and finally remove the temporary screen.
 		 * There can be better solutions available like e.g. some kind of invalidation which I am unaware of at this point in time
 		 */
-		private function resetCurrentScreen() : void
+		private function resetCurrentScreen(feathersControl : StackScreenNavigator) : void
 		{
-			var lastScreen : String = mNavigator.activeScreenID;
+			var lastScreen : String = feathersControl.activeScreenID;
 
-			mNavigator.addScreen(Screens.EMPTY,
-			                     tempEmptryScreen);
+			feathersControl.addScreen(Screens.EMPTY,
+			                          tempEmptryScreen);
 
-			mNavigator.pushScreen(Screens.EMPTY);
-			mNavigator.pushScreen(lastScreen);
-			mNavigator.removeScreen(Screens.EMPTY);
+			feathersControl.pushScreen(Screens.EMPTY);
+			feathersControl.pushScreen(lastScreen);
+			feathersControl.removeScreen(Screens.EMPTY);
 		}
 
 
@@ -204,16 +215,76 @@ package
 			layoutGroup.layout = layout;
 			addChild(layoutGroup);
 
-			var button1LayoutData : HorizontalLayoutData = new HorizontalLayoutData();
-			button1LayoutData.percentWidth               = 50;
-			mDrawers.layoutData                          = button1LayoutData;
+			var layoutData1 : HorizontalLayoutData = new HorizontalLayoutData();
+			layoutData1.percentWidth               = 50;
+			mDrawers.layoutData                    = layoutData1;
 
-			var button2LayoutData : HorizontalLayoutData = new HorizontalLayoutData();
-			button2LayoutData.percentWidth               = 50;
-			mNavigatorColorization.layoutData            = button2LayoutData;
+			var layoutData2 : HorizontalLayoutData = new HorizontalLayoutData();
+			layoutData2.percentWidth               = 50;
+			mNavigatorColorization.layoutData      = layoutData2;
 
 			layoutGroup.addChild(mDrawers);
 			layoutGroup.addChild(mNavigatorColorization);
+		}
+
+
+		private function applyColors() : void
+		{
+			if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_MAIN)
+			{
+				uniflatMobileThemeColors.colorPrimary = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_DISABLED)
+			{
+				uniflatMobileThemeColors.colorPrimaryDisabled = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_CONSTRAST)
+			{
+				uniflatMobileThemeColors.colorPrimaryContrast = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_DISABLED)
+			{
+				uniflatMobileThemeColors.colorPrimaryContrastDisabled = colorChangeVO.color;
+			}
+
+
+			else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_MAIN)
+			{
+				uniflatMobileThemeColors.colorAlt = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_DISABLED)
+			{
+				uniflatMobileThemeColors.colorAltDisabled = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_CONSTRAST)
+			{
+				uniflatMobileThemeColors.colorAltContrast = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_CONSTRAST_DISABLED)
+			{
+				uniflatMobileThemeColors.colorAltContrastDisabled = colorChangeVO.color;
+			}
+
+
+			else if (colorChangeVO.ID == UniflatColorTarget.MISC_BACKGROUND)
+			{
+				uniflatMobileThemeColors.colorBackground = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.MISC_STAGE)
+			{
+				uniflatMobileThemeColors.colorStage = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.MISC_CONTRAST)
+			{
+				uniflatMobileThemeColors.colorContrast = colorChangeVO.color;
+			}
+			else if (colorChangeVO.ID == UniflatColorTarget.MISC_CONSTRAST_DISABLED)
+			{
+				uniflatMobileThemeColors.colorContrastDisabled = colorChangeVO.color;
+			}
+
+
+			changeThemeColors(uniflatMobileThemeColors);
 		}
 
 
@@ -221,65 +292,17 @@ package
 		{
 			if (event.data) // when event.data is not null, a user-triggered color change has occurred
 			{
-				var colorChangeVO : ColorChangeVO = event.data as ColorChangeVO;
-
-
-				if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_MAIN)
-				{
-					uniflatMobileThemeColors.colorPrimary = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_DISABLED)
-				{
-					uniflatMobileThemeColors.colorPrimaryDisabled = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_CONSTRAST)
-				{
-					uniflatMobileThemeColors.colorPrimaryContrast = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.PRIMARY_DISABLED)
-				{
-					uniflatMobileThemeColors.colorPrimaryContrastDisabled = colorChangeVO.color;
-				}
-
-
-				else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_MAIN)
-				{
-					uniflatMobileThemeColors.colorAlt = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_DISABLED)
-				{
-					uniflatMobileThemeColors.colorAltDisabled = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_CONSTRAST)
-				{
-					uniflatMobileThemeColors.colorAltContrast = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.ALTERNATIVE_CONSTRAST_DISABLED)
-				{
-					uniflatMobileThemeColors.colorAltContrastDisabled = colorChangeVO.color;
-				}
-
-
-				else if (colorChangeVO.ID == UniflatColorTarget.MISC_BACKGROUND)
-				{
-					uniflatMobileThemeColors.colorBackground = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.MISC_STAGE)
-				{
-					uniflatMobileThemeColors.colorStage = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.MISC_CONSTRAST)
-				{
-					uniflatMobileThemeColors.colorContrast = colorChangeVO.color;
-				}
-				else if (colorChangeVO.ID == UniflatColorTarget.MISC_CONSTRAST_DISABLED)
-				{
-					uniflatMobileThemeColors.colorContrastDisabled = colorChangeVO.color;
-				}
-
-
-				changeThemeColors(uniflatMobileThemeColors);
+				colorChangeVO = event.data as ColorChangeVO;
+				applyColorTimer.reset();
+				applyColorTimer.start();
 			}
+		}
+
+
+		private function onCompleteTimerChangeColor(event : TimerEvent) : void
+		{
+			trace("onCompleteTimerChangeColor");
+			applyColors();
 		}
 
 

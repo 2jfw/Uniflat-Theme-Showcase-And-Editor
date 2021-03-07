@@ -27,7 +27,26 @@ package com.marpies.demo.display
 		{
 			super.initialize();
 
-			dataProvider        = new ListCollection(
+			createDP();
+
+			minWidth            = Constants.stageWidth >> 2;
+			selectedIndex       = 0;
+			hasElasticEdges     = false;
+			itemRendererFactory = function () : IListItemRenderer {
+				const item : DefaultListItemRenderer = new DefaultListItemRenderer();
+				item.labelField                      = "label";
+				item.iconSourceField                 = "icon";
+				return item;
+			};
+			clipContent         = false;
+			addEventListener(Event.CHANGE,
+			                 onMenuChanged);
+		}
+
+
+		public function createDP() : void
+		{
+			dataProvider = new ListCollection(
 					[
 						{
 							screen: Screens.ALERT_CALLOUT,
@@ -61,36 +80,19 @@ package com.marpies.demo.display
 						{screen: Screens.TEXT_INPUT, label: "TEXT INPUTS", icon: Assets.getTexture("text-format-icon")},
 						{screen: Screens.TOGGLE, label: "TOGGLES", icon: Assets.getTexture("check-circle-icon")}
 					]);
-			minWidth            = Constants.stageWidth >> 2;
-			selectedIndex       = 0;
-			hasElasticEdges     = false;
-			itemRendererFactory = function () : IListItemRenderer {
-				const item : DefaultListItemRenderer = new DefaultListItemRenderer();
-				item.labelField                      = "label";
-				item.iconSourceField                 = "icon";
-				return item;
-			};
-			clipContent         = false;
-			addEventListener(Event.CHANGE,
-			                 onMenuChanged);
-			//            IFocusContext._dwhiqufjdio.addEventListener( "int", apply );
 		}
 
 
-		private function apply() : void
+		private function onMenuChanged(event : Event) : void
 		{
-			//            IFocusContext.applyStyles( this );
+			if (selectedItem)
+			{
+				const screenName : String = selectedItem.screen as String;
+
+				dispatchEventWith(ScreenEvent.SWITCH,
+				                  false,
+				                  {screen: screenName});
+			}
 		}
-
-
-		private function onMenuChanged() : void
-		{
-			const screenName : String = selectedItem.screen as String;
-			dispatchEventWith(ScreenEvent.SWITCH,
-			                  false,
-			                  {screen: screenName});
-		}
-
 	}
-
 }

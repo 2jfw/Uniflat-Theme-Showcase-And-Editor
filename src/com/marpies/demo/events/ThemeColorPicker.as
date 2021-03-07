@@ -19,12 +19,16 @@
 
 package com.marpies.demo.events
 {
-	import com.marpies.utils.HorizontalLayoutBuilder;
+	import com.marpies.demo.vo.ColorChangeVO;
 
 	import feathers.controls.Label;
 	import feathers.controls.LayoutGroup;
 	import feathers.extensions.color.ColorPicker;
+	import feathers.layout.HorizontalAlign;
+	import feathers.layout.HorizontalLayout;
+	import feathers.layout.VerticalAlign;
 
+	import starling.display.Quad;
 	import starling.events.Event;
 
 
@@ -32,17 +36,20 @@ package com.marpies.demo.events
 	{
 
 		private var _label : String;
+		private var _initialValue : uint;
 		private var _colorPicker : ColorPicker;
 		private var _colorChangeVO : ColorChangeVO = new ColorChangeVO();
 
 
 		public function ThemeColorPicker(id : int,
-		                                 label : String)
+		                                 label : String,
+		                                 initialValue : uint)
 		{
 			super();
 
 			_colorChangeVO.ID = id;
 			_label            = label;
+			_initialValue     = initialValue;
 		}
 
 
@@ -50,22 +57,39 @@ package com.marpies.demo.events
 		{
 			super.initialize();
 
-			layout = new HorizontalLayoutBuilder()
-					.setGap(10)
-					.setPadding(10)
-					.build();
+			addChild(new Quad(400,
+			                  60,
+			                  0xc4c4c4));
+
+
+			var layoutGroup : LayoutGroup = new LayoutGroup();
+			//			layoutGroup.autoSizeMode      = AutoSizeMode.CONTENT;
+
+			var horizontalLayout : HorizontalLayout = new HorizontalLayout();
+			horizontalLayout.gap                    = 10;
+			horizontalLayout.padding                = 10;
+			horizontalLayout.horizontalAlign        = HorizontalAlign.RIGHT;
+			horizontalLayout.verticalAlign          = VerticalAlign.MIDDLE;
+			layoutGroup.layout                      = horizontalLayout;
+			layoutGroup.width                       = 400;
+
 
 			var label : Label = new Label();
 			label.text        = _label;
 
-			addChild(label);
+			layoutGroup.addChild(label);
 
 
-			_colorPicker = new ColorPicker();
-			addChild(_colorPicker);
+			_colorPicker       = new ColorPicker();
+			_colorPicker.color = _initialValue;
 
 			_colorPicker.colorText.addEventListener(Event.CHANGE,
 			                                        onChangeColor); // colorpicker itself should dispatch change event rather than subcomponent
+
+			layoutGroup.addChild(_colorPicker);
+
+			addChild(layoutGroup);
+
 		}
 
 

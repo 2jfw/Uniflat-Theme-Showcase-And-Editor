@@ -2,6 +2,7 @@ package com.marpies.demo.screens
 {
 	import com.marpies.demo.enums.UniflatColorTarget;
 	import com.marpies.demo.events.ThemeColorPicker;
+	import com.marpies.demo.vo.ThemeColors;
 	import com.marpies.utils.VerticalLayoutBuilder;
 
 	import feathers.controls.Label;
@@ -68,8 +69,25 @@ package com.marpies.demo.screens
 
 			                                   UniflatColorTarget.MISC_STAGE,
 			                                   UniflatColorTarget.MISC_BACKGROUND,
-			                                   UniflatColorTarget.MISC_CONSTRAST,
+			                                   UniflatColorTarget.MISC_CONTRAST,
 			                                   UniflatColorTarget.MISC_CONSTRAST_DISABLED
+			];
+
+
+			var initialColor : Vector.<int> = new <int>[ThemeColors.COLOR_PRIMARY,
+			                                            ThemeColors.COLOR_PRIMARY_DISABLED,
+			                                            ThemeColors.COLOR_PRIMARY_CONTRAST,
+			                                            ThemeColors.COLOR_PRIMARY_CONTRAST_DISABLED,
+
+			                                            ThemeColors.COLOR_ALTERNATIVE,
+			                                            ThemeColors.COLOR_ALTERNATIVE_DISABLED,
+			                                            ThemeColors.COLOR_ALTERNATIVE_CONTRAST,
+			                                            ThemeColors.COLOR_ALTERNATIVE_CONTRAST_DISABLED,
+
+			                                            ThemeColors.COLOR_STAGE,
+			                                            ThemeColors.COLOR_BACKGROUND,
+			                                            ThemeColors.COLOR_CONTRAST,
+			                                            ThemeColors.COLOR_CONTRAST_DISABLED
 			];
 
 			var labels : Vector.<String> = new <String>["MAIN",
@@ -122,7 +140,9 @@ package com.marpies.demo.screens
 
 
 				themeColorPicker = new ThemeColorPicker(ids[i],
-				                                        labels[i]);
+				                                        labels[i],
+				                                        initialColor[i]);
+
 				themeColorPicker.addEventListener(Event.CHANGE,
 				                                  onChangeColor);
 

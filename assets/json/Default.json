@@ -1,0 +1,14 @@
+{
+  "colorMiscStage": "#EEF2F6",
+  "colorMiscBackground": "#FFFFFF",
+  "colorMiscContrast": "#2B333A",
+  "colorMiscContrastDisabled": "#B1B4B7",
+  "colorPrimary": "#07C1BB",
+  "colorPrimaryDisabled": "#B4ECEA",
+  "colorPrimaryContrast": "#FFFFFF",
+  "colorPrimaryContrastDisabled": "#FFFFFF",
+  "colorAlternative": "#FF2D55",
+  "colorAlternativeDisabled": "#FFC0CC",
+  "colorAlternativeContrast": "#FFFFFF",
+  "colorAlternativeContrastDisabled": "#FFFFFF"
+}

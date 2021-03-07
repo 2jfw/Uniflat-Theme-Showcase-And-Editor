@@ -17,7 +17,7 @@
 //############################################################################
 
 
-package com.marpies.demo.events
+package com.marpies.demo.vo
 {
 	public class ColorChangeVO
 	{

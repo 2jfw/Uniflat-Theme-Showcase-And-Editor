@@ -34,7 +34,7 @@ package com.marpies.demo.enums
 
 		public static const MISC_STAGE : int              = 9;
 		public static const MISC_BACKGROUND : int         = 10;
-		public static const MISC_CONSTRAST : int          = 11;
+		public static const MISC_CONTRAST : int           = 11;
 		public static const MISC_CONSTRAST_DISABLED : int = 12;
 
 
