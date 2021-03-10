@@ -3,8 +3,10 @@ package com.marpies.demo.screens
 	import com.marpies.demo.enums.UniflatColorTarget;
 	import com.marpies.demo.events.ThemeColorPicker;
 	import com.marpies.demo.vo.ThemeColors;
+	import com.marpies.utils.Assets;
 	import com.marpies.utils.VerticalLayoutBuilder;
 
+	import feathers.controls.Button;
 	import feathers.controls.Label;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.text.TextBlockTextRenderer;
@@ -21,6 +23,8 @@ package com.marpies.demo.screens
 	import flash.text.engine.FontPosture;
 	import flash.text.engine.FontWeight;
 
+	import starling.display.DisplayObject;
+	import starling.display.Image;
 	import starling.events.Event;
 
 
@@ -57,6 +61,13 @@ package com.marpies.demo.screens
 
 			styleNameList.add("j");
 
+			createColorSettings();
+			createOptionsButton();
+		}
+
+
+		private function createColorSettings() : void
+		{
 			var ids : Vector.<int> = new <int>[UniflatColorTarget.PRIMARY_MAIN,
 			                                   UniflatColorTarget.PRIMARY_DISABLED,
 			                                   UniflatColorTarget.PRIMARY_CONSTRAST,
@@ -118,9 +129,9 @@ package com.marpies.demo.screens
 					label.textRendererFactory = getTextRenderer;
 
 					var labelLayoutData : AnchorLayoutData = new AnchorLayoutData();
-					labelLayoutData.percentWidth           = 100;
-					label.layoutData                       = labelLayoutData;
-					label.paddingRight                     = 10;
+					labelLayoutData.percentWidth = 100;
+					label.layoutData             = labelLayoutData;
+					label.paddingRight           = 10;
 
 					addChild(label);
 
@@ -147,9 +158,34 @@ package com.marpies.demo.screens
 				                                  onChangeColor);
 
 				addChild(themeColorPicker);
-
-
 			}
+		}
+
+
+		private function createOptionsButton() : void
+		{
+			var optionsButton : Button = new Button();
+			optionsButton.defaultIcon  = new Image(Assets.getTexture("settings-icon"));
+			optionsButton.styleNameList.add("f");
+
+			optionsButton.addEventListener(Event.TRIGGERED,
+			                               onTriggerOptionsButton);
+
+			headerProperties.rightItems = new <DisplayObject>[
+				optionsButton
+			];
+		}
+
+
+		private function onTriggerOptionsButton() : void
+		{
+			showOptions();
+		}
+
+
+		private function showOptions() : void
+		{
+
 		}
 
 

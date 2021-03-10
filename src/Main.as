@@ -57,6 +57,7 @@ package
 		private var mDrawers : Drawers;
 		private var mNavigator : StackScreenNavigator;
 		private var mNavigatorColorization : StackScreenNavigator;
+		private var mNavigatorColorizationInitialized : Boolean;
 
 		private var theme : BaseUniflatMobileTheme;
 		private var tempEmptryScreen : StackScreenNavigatorItem         = new StackScreenNavigatorItem(EmptyScreen);
@@ -105,6 +106,15 @@ package
 				resetCurrentScreen(mNavigator);
 			}
 
+			//			if (mNavigatorColorization && !mNavigatorColorizationInitialized)
+			//			{
+			//				mNavigatorColorization.resetStyleProvider();
+			//
+			//				resetCurrentScreen(mNavigatorColorization);
+			//
+			//				mNavigatorColorizationInitialized = true;
+			//			}
+
 
 			if (mDrawers)
 			{
@@ -118,7 +128,7 @@ package
 				mMenu.invalidate();
 				mMenu.validate();
 
-				mMenu.dataProvider.refresh();
+				//				mMenu.dataProvider.refresh();
 				//				mMenu.createDP();
 			}
 		}
@@ -180,7 +190,8 @@ package
 			mNavigator.rootScreenID = Screens.ALERT_CALLOUT;
 
 
-			mNavigatorColorization = new StackScreenNavigator();
+			mNavigatorColorization               = new StackScreenNavigator();
+			mNavigatorColorization.styleProvider = null;
 
 			mNavigatorColorization.addScreen(Screens.THEME_COLORS,
 			                                 new StackScreenNavigatorItem(ThemeColorConfigurationScreen));

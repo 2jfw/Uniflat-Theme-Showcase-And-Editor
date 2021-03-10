@@ -58,7 +58,7 @@ package com.marpies.demo.events
 			super.initialize();
 
 			addChild(new Quad(400,
-			                  60,
+			                  70,
 			                  0xc4c4c4));
 
 
@@ -75,7 +75,8 @@ package com.marpies.demo.events
 
 
 			var label : Label = new Label();
-			label.text        = _label;
+			label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
+			label.text = _label;
 
 			layoutGroup.addChild(label);
 
@@ -83,13 +84,13 @@ package com.marpies.demo.events
 			_colorPicker       = new ColorPicker();
 			_colorPicker.color = _initialValue;
 
-			_colorPicker.colorText.addEventListener(Event.CHANGE,
-			                                        onChangeColor); // colorpicker itself should dispatch change event rather than subcomponent
-
 			layoutGroup.addChild(_colorPicker);
 
 			addChild(layoutGroup);
 
+
+			_colorPicker.colorText.addEventListener(Event.CHANGE,
+			                                        onChangeColor); // colorpicker itself should dispatch change event rather than subcomponent
 		}
 
 
