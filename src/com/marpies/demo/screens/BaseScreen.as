@@ -57,7 +57,5 @@ package com.marpies.demo.screens
 		{
 			dispatchEventWith(ScreenEvent.TOGGLE_MENU);
 		}
-
 	}
-
 }

@@ -1,7 +1,8 @@
 package com.marpies.demo.screens
 {
+	import com.marpies.demo.display.ThemeColorPicker;
 	import com.marpies.demo.enums.UniflatColorTarget;
-	import com.marpies.demo.events.ThemeColorPicker;
+	import com.marpies.demo.events.ScreenEvent;
 	import com.marpies.demo.vo.ThemeColors;
 	import com.marpies.utils.Assets;
 	import com.marpies.utils.VerticalLayoutBuilder;
@@ -116,6 +117,21 @@ package com.marpies.demo.screens
 			                                            "CONTRAST",
 			                                            "CONSTRAST DISABLED"];
 
+			var tooltips : Vector.<String> = new <String>["Used for primary buttons, selected state of toggles (Check, Radio...)",
+			                                              "Used for disabled state of primary buttons",
+			                                              "Used for text where PRIMARY MAIN color is used, and for PanelScreen header title",
+			                                              "Used for text where PRIMARY DISABLED color is used",
+
+			                                              "Alternative color, used for call-to-action and alternative buttons",
+			                                              "Used for disabled state of call-to-action and alternative buttons",
+			                                              "Used for text where ALTERNATIVE MAIN color is used",
+			                                              "Used for text where ALTERNATIVE DISABLED color is used",
+
+			                                              "Used for the stage color",
+			                                              "Used for background skin (List, GroupedList, Alert...)",
+			                                              "Used for TextRenderers (Label, ItemRenderer...), deselected toggle states (Check, Radio), PanelScreen header background, overlay (Drawers, pop up)",
+			                                              "Used for disabled state of TextRenderers (Label, ItemRenderer...), toggles (Check, Radio)"];
+
 			var label : Label;
 			var themeColorPicker : ThemeColorPicker;
 			var len : int = labels.length;
@@ -129,9 +145,9 @@ package com.marpies.demo.screens
 					label.textRendererFactory = getTextRenderer;
 
 					var labelLayoutData : AnchorLayoutData = new AnchorLayoutData();
-					labelLayoutData.percentWidth = 100;
-					label.layoutData             = labelLayoutData;
-					label.paddingRight           = 10;
+					labelLayoutData.percentWidth           = 100;
+					label.layoutData                       = labelLayoutData;
+					label.paddingRight                     = 10;
 
 					addChild(label);
 
@@ -152,13 +168,17 @@ package com.marpies.demo.screens
 
 				themeColorPicker = new ThemeColorPicker(ids[i],
 				                                        labels[i],
-				                                        initialColor[i]);
+				                                        initialColor[i],
+				                                        tooltips[i]);
 
 				themeColorPicker.addEventListener(Event.CHANGE,
 				                                  onChangeColor);
 
 				addChild(themeColorPicker);
 			}
+
+			label      = new Label();
+			label.text = "Callout";
 		}
 
 
@@ -185,7 +205,7 @@ package com.marpies.demo.screens
 
 		private function showOptions() : void
 		{
-
+			dispatchEventWith(ScreenEvent.TOGGLE_MENU);
 		}
 
 

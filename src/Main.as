@@ -1,6 +1,7 @@
 package
 {
 
+	import com.marpies.demo.display.ExportThemeList;
 	import com.marpies.demo.display.MenuList;
 	import com.marpies.demo.enums.UniflatColorTarget;
 	import com.marpies.demo.events.ScreenEvent;
@@ -24,6 +25,7 @@ package
 	import com.marpies.demo.screens.ToggleScreen;
 	import com.marpies.demo.vo.ColorChangeVO;
 	import com.marpies.demo.vo.ThemeColors;
+	import com.marpies.utils.Constants;
 
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.Drawers;
@@ -54,13 +56,14 @@ package
 		private static const DEFAULT_COLORS_JSON : Class;
 
 		private var mMenu : MenuList;
-		private var mDrawers : Drawers;
+		private var mDrawersComponents : Drawers;
+		private var mDrawersColors : Drawers;
 		private var mNavigator : StackScreenNavigator;
 		private var mNavigatorColorization : StackScreenNavigator;
 		private var mNavigatorColorizationInitialized : Boolean;
 
 		private var theme : BaseUniflatMobileTheme;
-		private var tempEmptryScreen : StackScreenNavigatorItem         = new StackScreenNavigatorItem(EmptyScreen);
+		private var tempEmptyScreen : StackScreenNavigatorItem          = new StackScreenNavigatorItem(EmptyScreen);
 		private var uniflatMobileThemeColors : UniflatMobileThemeColors = new UniflatMobileThemeColors();
 		private var applyColorTimer : Timer                             = new Timer(250,
 		                                                                            1); // this timer prevents too frequent updates. Slightly hackish attempt..
@@ -70,6 +73,8 @@ package
 		public function Main()
 		{
 			super();
+
+			Constants.uniflatMobileThemeColors = uniflatMobileThemeColors;
 
 			applyColorTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
 			                                 onCompleteTimerChangeColor);
@@ -101,6 +106,7 @@ package
 
 			if (mNavigator)
 			{
+				mNavigator.styleProvider = null;
 				mNavigator.resetStyleProvider();
 
 				resetCurrentScreen(mNavigator);
@@ -108,29 +114,28 @@ package
 
 			//			if (mNavigatorColorization && !mNavigatorColorizationInitialized)
 			//			{
+			//				mNavigatorColorization.styleProvider = null;
 			//				mNavigatorColorization.resetStyleProvider();
 			//
-			//				resetCurrentScreen(mNavigatorColorization);
-			//
-			//				mNavigatorColorizationInitialized = true;
+			//				//							resetCurrentScreen(mNavigatorColorization);
+			//				//							mNavigatorColorizationInitialized = true;
 			//			}
 
 
-			if (mDrawers)
+			if (mDrawersComponents)
 			{
-				mDrawers.resetStyleProvider();
+				mDrawersComponents.styleProvider = null;
+				mDrawersComponents.resetStyleProvider();
 			}
 
 			if (mMenu)
 			{
+				mMenu.styleProvider = null;
 				mMenu.resetStyleProvider();
-
-				mMenu.invalidate();
-				mMenu.validate();
-
-				//				mMenu.dataProvider.refresh();
-				//				mMenu.createDP();
 			}
+
+
+			//			dispatchEvent(Event.M)
 		}
 
 
@@ -143,7 +148,7 @@ package
 			var lastScreen : String = feathersControl.activeScreenID;
 
 			feathersControl.addScreen(Screens.EMPTY,
-			                          tempEmptryScreen);
+			                          tempEmptyScreen);
 
 			feathersControl.pushScreen(Screens.EMPTY);
 			feathersControl.pushScreen(lastScreen);
@@ -190,8 +195,7 @@ package
 			mNavigator.rootScreenID = Screens.ALERT_CALLOUT;
 
 
-			mNavigatorColorization               = new StackScreenNavigator();
-			mNavigatorColorization.styleProvider = null;
+			mNavigatorColorization = new StackScreenNavigator();
 
 			mNavigatorColorization.addScreen(Screens.THEME_COLORS,
 			                                 new StackScreenNavigatorItem(ThemeColorConfigurationScreen));
@@ -209,11 +213,24 @@ package
 			                       onScreenSwitch);
 
 			/* Drawers */
-			mDrawers                           = new Drawers(mNavigator);
-			mDrawers.leftDrawer                = mMenu;
-			mDrawers.clipDrawers               = true;
-			mDrawers.openMode                  = RelativeDepth.ABOVE;
-			mDrawers.leftDrawerToggleEventType = ScreenEvent.TOGGLE_MENU;
+			mDrawersComponents                           = new Drawers(mNavigator);
+			mDrawersComponents.leftDrawer                = mMenu;
+			mDrawersComponents.clipDrawers               = true;
+			mDrawersComponents.openMode                  = RelativeDepth.ABOVE;
+			mDrawersComponents.leftDrawerToggleEventType = ScreenEvent.TOGGLE_MENU;
+
+			mDrawersComponents.layoutData = new HorizontalLayoutData(50,
+			                                                         NaN);
+
+
+			mDrawersColors                            = new Drawers(mNavigatorColorization);
+			mDrawersColors.rightDrawer                = new ExportThemeList();
+			mDrawersColors.clipDrawers                = true;
+			mDrawersColors.openMode                   = RelativeDepth.ABOVE;
+			mDrawersColors.rightDrawerToggleEventType = ScreenEvent.TOGGLE_MENU;
+
+			mDrawersColors.layoutData = new HorizontalLayoutData(50,
+			                                                     NaN);
 
 
 			var layoutGroup : LayoutGroup = new LayoutGroup();
@@ -226,16 +243,8 @@ package
 			layoutGroup.layout = layout;
 			addChild(layoutGroup);
 
-			var layoutData1 : HorizontalLayoutData = new HorizontalLayoutData();
-			layoutData1.percentWidth               = 50;
-			mDrawers.layoutData                    = layoutData1;
-
-			var layoutData2 : HorizontalLayoutData = new HorizontalLayoutData();
-			layoutData2.percentWidth               = 50;
-			mNavigatorColorization.layoutData      = layoutData2;
-
-			layoutGroup.addChild(mDrawers);
-			layoutGroup.addChild(mNavigatorColorization);
+			layoutGroup.addChild(mDrawersComponents);
+			layoutGroup.addChild(mDrawersColors);
 		}
 
 
@@ -320,7 +329,7 @@ package
 		private function onScreenSwitch(event : Event) : void
 		{
 			mNavigator.pushScreen(event.data.screen);
-			Starling.juggler.delayCall(mDrawers.toggleLeftDrawer,
+			Starling.juggler.delayCall(mDrawersComponents.toggleLeftDrawer,
 			                           0.25);
 		}
 	}
