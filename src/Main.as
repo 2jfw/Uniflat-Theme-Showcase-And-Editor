@@ -9,7 +9,6 @@ package
 	import com.marpies.demo.screens.AutoCompleteScreen;
 	import com.marpies.demo.screens.ButtonScreen;
 	import com.marpies.demo.screens.CustomItemRendererScreen;
-	import com.marpies.demo.screens.EmptyScreen;
 	import com.marpies.demo.screens.GroupedListScreen;
 	import com.marpies.demo.screens.LabelScreen;
 	import com.marpies.demo.screens.ListScreen;
@@ -30,7 +29,6 @@ package
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.Drawers;
 	import feathers.controls.LayoutGroup;
-	import feathers.controls.Panel;
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.FeathersControl;
@@ -65,7 +63,6 @@ package
 		private var mNavigatorColorizationInitialized : Boolean;
 
 		private var theme : BaseUniflatMobileTheme;
-		private var tempEmptyScreen : StackScreenNavigatorItem          = new StackScreenNavigatorItem(EmptyScreen);
 		private var uniflatMobileThemeColors : UniflatMobileThemeColors = new UniflatMobileThemeColors();
 		private var applyColorTimer : Timer                             = new Timer(250,
 		                                                                            1); // this timer prevents too frequent updates. Slightly hackish attempt..
@@ -125,12 +122,8 @@ package
 						resetAllStyleProviders(childControl);
 					}
 
-					if ((childControl is Panel))
-					{
-						childControl.invalidate();
-					}
+					childControl.invalidate();
 					childControl.resetStyleProvider();
-					childControl.setRequiresRedraw();
 				}
 			}
 		}

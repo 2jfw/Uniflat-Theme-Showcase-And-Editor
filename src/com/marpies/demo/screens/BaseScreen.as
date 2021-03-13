@@ -21,6 +21,15 @@ package com.marpies.demo.screens
 
 		public function BaseScreen()
 		{
+			if (!mMenuButton)
+			{
+				mMenuButton             = new Button();
+				mMenuButton.defaultIcon = new Image(Assets.getTexture("menu-icon"));
+				mMenuButton.styleNameList.add("f");
+				mMenuButton.addEventListener(Event.TRIGGERED,
+				                             onMenuButtonTriggered);
+			}
+
 			super();
 		}
 
@@ -29,31 +38,29 @@ package com.marpies.demo.screens
 		{
 			super.initialize();
 
-			/* Add default menu button to the header */
-			mMenuButton             = new Button();
-			mMenuButton.defaultIcon = new Image(Assets.getTexture("menu-icon"));
-			mMenuButton.styleNameList.add("f");
-			mMenuButton.addEventListener(Event.TRIGGERED,
-			                             onMenuButtonTriggered);
-			headerProperties.leftItems = new <DisplayObject>[
-				mMenuButton
-			];
-
-
 			backButtonHandler = onBackButton;
 		}
 
 
 		override protected function createHeader() : void
 		{
+			var __header : Header;
+
+			if (header)
+			{
+				__header = header as Header;
+			}
+
+			if (__header && __header.leftItems)
+			{
+				__header.removeChild(mMenuButton);
+				__header.leftItems = null;
+			}
+
 			super.createHeader();
-			var h : Header = header as Header;
 
-			trace((header as Header).leftItems);
-
-			//			(header as Header).leftItems = new <DisplayObject>[
-			//				mMenuButton
-			//			];
+			__header           = header as Header;
+			__header.leftItems = new <DisplayObject>[mMenuButton];
 		}
 
 

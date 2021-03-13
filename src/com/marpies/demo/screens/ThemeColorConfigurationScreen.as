@@ -8,6 +8,7 @@ package com.marpies.demo.screens
 	import com.marpies.utils.VerticalLayoutBuilder;
 
 	import feathers.controls.Button;
+	import feathers.controls.Header;
 	import feathers.controls.Label;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.text.TextBlockTextRenderer;
@@ -42,7 +43,38 @@ package com.marpies.demo.screens
 
 		public function ThemeColorConfigurationScreen()
 		{
+			if (!mMenuButton)
+			{
+				mMenuButton             = new Button();
+				mMenuButton.defaultIcon = new Image(Assets.getTexture("settings-icon"));
+				mMenuButton.styleNameList.add("f");
+				mMenuButton.addEventListener(Event.TRIGGERED,
+				                             onTriggerOptionsButton);
+			}
+
 			super();
+		}
+
+
+		override protected function createHeader() : void
+		{
+			var __header : Header;
+
+			if (header)
+			{
+				__header = header as Header;
+			}
+
+			if (__header && __header.rightItems)
+			{
+				__header.removeChild(mMenuButton);
+				__header.rightItems = null;
+			}
+
+			super.createHeader();
+
+			__header            = header as Header;
+			__header.rightItems = new <DisplayObject>[mMenuButton];
 		}
 
 
@@ -63,7 +95,6 @@ package com.marpies.demo.screens
 			styleNameList.add("j");
 
 			createColorSettings();
-			createOptionsButton();
 		}
 
 
@@ -179,21 +210,6 @@ package com.marpies.demo.screens
 
 			label      = new Label();
 			label.text = "Callout";
-		}
-
-
-		private function createOptionsButton() : void
-		{
-			var optionsButton : Button = new Button();
-			optionsButton.defaultIcon  = new Image(Assets.getTexture("settings-icon"));
-			optionsButton.styleNameList.add("f");
-
-			optionsButton.addEventListener(Event.TRIGGERED,
-			                               onTriggerOptionsButton);
-
-			headerProperties.rightItems = new <DisplayObject>[
-				optionsButton
-			];
 		}
 
 
