@@ -160,8 +160,6 @@ package com.marpies.demo.display
 			dispatchEvent(new Event(Event.CHANGE,
 			                        false,
 			                        _colorChangeVO));
-
-			_infoButton.resetStyleProvider();
 		}
 
 

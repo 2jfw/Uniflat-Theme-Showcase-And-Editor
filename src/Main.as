@@ -30,8 +30,10 @@ package
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.Drawers;
 	import feathers.controls.LayoutGroup;
+	import feathers.controls.Panel;
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
+	import feathers.core.FeathersControl;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
@@ -103,56 +105,34 @@ package
 
 			theme = new UniflatMobileThemeWithIcons(value);
 
-
-			if (mNavigator)
-			{
-				mNavigator.styleProvider = null;
-				mNavigator.resetStyleProvider();
-
-				resetCurrentScreen(mNavigator);
-			}
-
-			//			if (mNavigatorColorization && !mNavigatorColorizationInitialized)
-			//			{
-			//				mNavigatorColorization.styleProvider = null;
-			//				mNavigatorColorization.resetStyleProvider();
-			//
-			//				//							resetCurrentScreen(mNavigatorColorization);
-			//				//							mNavigatorColorizationInitialized = true;
-			//			}
-
-
-			if (mDrawersComponents)
-			{
-				mDrawersComponents.styleProvider = null;
-				mDrawersComponents.resetStyleProvider();
-			}
-
-			if (mMenu)
-			{
-				mMenu.styleProvider = null;
-				mMenu.resetStyleProvider();
-			}
-
-
-			//			dispatchEvent(Event.M)
+			resetAllStyleProviders(this);
 		}
 
 
-		/**
-		 * This will inject a temporary empty screen, then revert back to the previous screen and finally remove the temporary screen.
-		 * There can be better solutions available like e.g. some kind of invalidation which I am unaware of at this point in time
-		 */
-		private function resetCurrentScreen(feathersControl : StackScreenNavigator) : void
+		public function resetAllStyleProviders(control : Sprite)
 		{
-			var lastScreen : String = feathersControl.activeScreenID;
+			var len : int = control.numChildren;
+			var childControl : FeathersControl;
 
-			feathersControl.addScreen(Screens.EMPTY,
-			                          tempEmptyScreen);
+			for (var i : int = 0; i < len; i++)
+			{
+				childControl = control.getChildAt(i) as FeathersControl;
 
-			feathersControl.pushScreen(Screens.EMPTY);
-			feathersControl.pushScreen(lastScreen);
-			feathersControl.removeScreen(Screens.EMPTY);
+				if (childControl)
+				{
+					if (childControl.numChildren > 0)
+					{
+						resetAllStyleProviders(childControl);
+					}
+
+					if ((childControl is Panel))
+					{
+						childControl.invalidate();
+					}
+					childControl.resetStyleProvider();
+					childControl.setRequiresRedraw();
+				}
+			}
 		}
 
 

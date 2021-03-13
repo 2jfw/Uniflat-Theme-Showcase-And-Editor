@@ -5,6 +5,7 @@ package com.marpies.demo.screens
 	import com.marpies.utils.Assets;
 
 	import feathers.controls.Button;
+	import feathers.controls.Header;
 	import feathers.controls.PanelScreen;
 
 	import starling.display.DisplayObject;
@@ -37,7 +38,22 @@ package com.marpies.demo.screens
 			headerProperties.leftItems = new <DisplayObject>[
 				mMenuButton
 			];
-			backButtonHandler          = onBackButton;
+
+
+			backButtonHandler = onBackButton;
+		}
+
+
+		override protected function createHeader() : void
+		{
+			super.createHeader();
+			var h : Header = header as Header;
+
+			trace((header as Header).leftItems);
+
+			//			(header as Header).leftItems = new <DisplayObject>[
+			//				mMenuButton
+			//			];
 		}
 
 

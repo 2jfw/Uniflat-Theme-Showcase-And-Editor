@@ -69,7 +69,7 @@ package com.marpies.demo.display
 
 				if (action == 1)
 				{
-					trace(Constants.uniflatMobileThemeColors.to);
+//					trace(Constants.uniflatMobileThemeColors.to);
 				}
 			}
 		}
