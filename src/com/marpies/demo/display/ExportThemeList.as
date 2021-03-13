@@ -1,6 +1,8 @@
 package com.marpies.demo.display
 {
 
+	import com.marpies.demo.enums.ThemeOptionsMenuAction;
+	import com.marpies.demo.events.OptionsEvent;
 	import com.marpies.utils.Assets;
 	import com.marpies.utils.Constants;
 
@@ -36,10 +38,12 @@ package com.marpies.demo.display
 				item.iconSourceField                 = "icon";
 				return item;
 			};
-			clipContent         = false;
+
+			clipContent = false;
 			addEventListener(Event.CHANGE,
 			                 onMenuChanged);
 
+			selectedIndex = -1;
 		}
 
 
@@ -48,14 +52,29 @@ package com.marpies.demo.display
 			dataProvider = new ListCollection(
 					[
 						{
-							action: 1,
-							label:  "Export JSON",
+							action: ThemeOptionsMenuAction.SAVE_JSON_CLIPBOARD,
+							label:  "Export JSON to Clipboard",
+							icon:   Assets.getTexture("content-copy-icon")
+						},
+						{
+							action: ThemeOptionsMenuAction.SAVE_JSON_DISK,
+							label:  "Export JSON to Disk",
 							icon:   Assets.getTexture("save-icon")
 						},
 						{
-							action: 2,
-							label:  "Import JSON",
-							icon:   Assets.getTexture("load-icon")
+							action: ThemeOptionsMenuAction.LOAD_JSON_CLIPBOARD,
+							label:  "Import JSON from Clipboard",
+							icon:   Assets.getTexture("content-paste-icon")
+						},
+						{
+							action: ThemeOptionsMenuAction.LOAD_JSON_DISK,
+							label:  "Import JSON from Disk",
+							icon:   Assets.getTexture("open-in-new-icon")
+						},
+						{
+							action: ThemeOptionsMenuAction.RESET,
+							label:  "Reset to Default",
+							icon:   Assets.getTexture("refresh-icon")
 						}
 					]);
 		}
@@ -65,12 +84,11 @@ package com.marpies.demo.display
 		{
 			if (selectedItem)
 			{
-				const action : int = selectedItem.action as int;
+				dispatchEventWith(OptionsEvent.CHANGE,
+				                  false,
+				                  {action: selectedItem.action});
 
-				if (action == 1)
-				{
-//					trace(Constants.uniflatMobileThemeColors.to);
-				}
+				selectedIndex = -1; // simulating requireSelection=false;
 			}
 		}
 	}

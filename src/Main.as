@@ -3,7 +3,9 @@ package
 
 	import com.marpies.demo.display.ExportThemeList;
 	import com.marpies.demo.display.MenuList;
+	import com.marpies.demo.enums.ThemeOptionsMenuAction;
 	import com.marpies.demo.enums.UniflatColorTarget;
+	import com.marpies.demo.events.OptionsEvent;
 	import com.marpies.demo.events.ScreenEvent;
 	import com.marpies.demo.screens.AlertCalloutScreen;
 	import com.marpies.demo.screens.AutoCompleteScreen;
@@ -23,14 +25,16 @@ package
 	import com.marpies.demo.screens.ThemeColorConfigurationScreen;
 	import com.marpies.demo.screens.ToggleScreen;
 	import com.marpies.demo.vo.ColorChangeVO;
-	import com.marpies.demo.vo.ThemeColors;
+	import com.marpies.demo.vo.UniflatThemeColorHelper;
 	import com.marpies.utils.Constants;
 
+	import feathers.controls.Alert;
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.Drawers;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
+	import feathers.controls.TextCallout;
 	import feathers.core.FeathersControl;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
@@ -41,8 +45,20 @@ package
 	import feathers.themes.UniflatMobileThemeColors;
 	import feathers.themes.UniflatMobileThemeWithIcons;
 
+	import flash.desktop.Clipboard;
+	import flash.desktop.ClipboardFormats;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
+	import flash.filesystem.File;
+	import flash.filesystem.FileMode;
+	import flash.filesystem.FileStream;
+	import flash.net.FileFilter;
+	import flash.net.FileReference;
+	import flash.utils.ByteArray;
 	import flash.utils.Timer;
+	import flash.utils.setTimeout;
 
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -56,17 +72,19 @@ package
 		private static const DEFAULT_COLORS_JSON : Class;
 
 		private var mMenu : MenuList;
+		private var mMenuOptions : ExportThemeList;
 		private var mDrawersComponents : Drawers;
 		private var mDrawersColors : Drawers;
 		private var mNavigator : StackScreenNavigator;
 		private var mNavigatorColorization : StackScreenNavigator;
-		private var mNavigatorColorizationInitialized : Boolean;
 
 		private var theme : BaseUniflatMobileTheme;
 		private var uniflatMobileThemeColors : UniflatMobileThemeColors = new UniflatMobileThemeColors();
+		private var themeColors : UniflatThemeColorHelper               = new UniflatThemeColorHelper();
 		private var applyColorTimer : Timer                             = new Timer(250,
 		                                                                            1); // this timer prevents too frequent updates. Slightly hackish attempt..
 		private var colorChangeVO : ColorChangeVO;
+		private var fileRef : FileReference;
 
 
 		public function Main()
@@ -74,16 +92,116 @@ package
 			super();
 
 			Constants.uniflatMobileThemeColors = uniflatMobileThemeColors;
+			Constants.themeColors              = themeColors;
+
+			setupFileReference();
 
 			applyColorTimer.addEventListener(TimerEvent.TIMER_COMPLETE,
 			                                 onCompleteTimerChangeColor);
 		}
 
 
+		private function setupFileReference() : void
+		{
+			fileRef = new FileReference();
+			fileRef.addEventListener(flash.events.Event.SELECT,
+			                         onFileSelected);
+			fileRef.addEventListener(flash.events.Event.CANCEL,
+			                         onCancel);
+			fileRef.addEventListener(IOErrorEvent.IO_ERROR,
+			                         onIOError);
+			fileRef.addEventListener(SecurityErrorEvent.SECURITY_ERROR,
+			                         onSecurityError);
+			fileRef.addEventListener(Event.COMPLETE,
+			                         onComplete);
+		}
+
+
+		public function onFileSelected(event : flash.events.Event) : void
+		{
+			//			fileRef.load();
+			var file : File         = File.desktopDirectory.resolvePath(fileRef.name);
+			var stream : FileStream = new FileStream();
+			stream.open(file,
+			            FileMode.WRITE);
+			stream.writeUTFBytes(Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors));
+			stream.close();
+		}
+
+
+		public function onCancel(evt : flash.events.Event) : void
+		{
+			trace("The browse request was canceled by the user.");
+		}
+
+
+		public function onComplete(evt : flash.events.Event) : void
+		{
+			trace("File was successfully loaded.");
+
+			var bytes : ByteArray = fileRef.data;
+			var str : String      = bytes.readUTFBytes(bytes.length);
+
+			applyFromString(str);
+		}
+
+
+		public function saveFile() : void
+		{
+			fileRef.save(Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors),
+			             "UniflatTheme.json");
+		}
+
+
+		public function onSaveFileSelected(evt : flash.events.Event) : void
+		{
+			fileRef.addEventListener(Event.COMPLETE,
+			                         onSaveComplete);
+			fileRef.addEventListener(Event.CANCEL,
+			                         onSaveCancel);
+		}
+
+
+		public function onSaveComplete(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(Event.COMPLETE,
+			                            onSaveComplete);
+			fileRef.removeEventListener(Event.CANCEL,
+			                            onSaveCancel);
+		}
+
+
+		public function onSaveCancel(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(Event.COMPLETE,
+			                            onSaveComplete);
+			fileRef.removeEventListener(Event.CANCEL,
+			                            onSaveCancel);
+		}
+
+
+		public function onIOError(evt : IOErrorEvent) : void
+		{
+			fileRef.removeEventListener(Event.COMPLETE,
+			                            onSaveComplete);
+			fileRef.removeEventListener(Event.CANCEL,
+			                            onSaveCancel);
+		}
+
+
+		public function onSecurityError(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(Event.COMPLETE,
+			                            onSaveComplete);
+			fileRef.removeEventListener(Event.CANCEL,
+			                            onSaveCancel);
+		}
+
+
 		private function initTheme() : void
 		{
 			// Setting initial values seems to fix an issue where components would become white when changing colors
-			changeThemeColors(new ThemeColors().fromJSON(new DEFAULT_COLORS_JSON()).toUniflatMobileThemeColors());
+			changeThemeColors(themeColors.fromJSON(new DEFAULT_COLORS_JSON()).toUniflatMobileThemeColors());
 		}
 
 
@@ -91,7 +209,7 @@ package
 		{
 			if (value)
 			{
-				uniflatMobileThemeColors = value;
+				Constants.uniflatMobileThemeColors = uniflatMobileThemeColors = value;
 			}
 
 			if (theme)
@@ -106,7 +224,7 @@ package
 		}
 
 
-		public function resetAllStyleProviders(control : Sprite)
+		public function resetAllStyleProviders(control : Sprite) : void
 		{
 			var len : int = control.numChildren;
 			var childControl : FeathersControl;
@@ -195,9 +313,12 @@ package
 			mDrawersComponents.layoutData = new HorizontalLayoutData(50,
 			                                                         NaN);
 
+			mMenuOptions = new ExportThemeList();
+			mMenuOptions.addEventListener(OptionsEvent.CHANGE,
+			                              onChangeOptions);
 
 			mDrawersColors                            = new Drawers(mNavigatorColorization);
-			mDrawersColors.rightDrawer                = new ExportThemeList();
+			mDrawersColors.rightDrawer                = mMenuOptions;
 			mDrawersColors.clipDrawers                = true;
 			mDrawersColors.openMode                   = RelativeDepth.ABOVE;
 			mDrawersColors.rightDrawerToggleEventType = ScreenEvent.TOGGLE_MENU;
@@ -304,6 +425,77 @@ package
 			mNavigator.pushScreen(event.data.screen);
 			Starling.juggler.delayCall(mDrawersComponents.toggleLeftDrawer,
 			                           0.25);
+		}
+
+
+		private function onChangeOptions(event : Event) : void
+		{
+			if (event.data) // when event.data is not null, a user-triggered color change has occurred
+			{
+				if (event.data.action == ThemeOptionsMenuAction.SAVE_JSON_CLIPBOARD)
+				{
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT,
+					                                   Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors));
+
+					TextCallout.show("Theme copied to Clipboard as JSON",
+					                 mNavigatorColorization,
+					                 null,
+					                 false);
+				}
+				else if (event.data.action == ThemeOptionsMenuAction.SAVE_JSON_DISK)
+				{
+					var textTypeFilter : FileFilter = new FileFilter("JSON Files (*.json)",
+					                                                 "*.json;");
+					fileRef.browse([textTypeFilter]);
+				}
+				else if (event.data.action == ThemeOptionsMenuAction.LOAD_JSON_CLIPBOARD)
+				{
+					applyFromString(Clipboard.generalClipboard.getData(ClipboardFormats.TEXT_FORMAT) as String);
+				}
+				else if (event.data.action == ThemeOptionsMenuAction.LOAD_JSON_DISK)
+				{
+					var textTypeFilter : FileFilter = new FileFilter("JSON Files (*.json)",
+					                                                 "*.json;");
+					fileRef.browse([textTypeFilter]);
+				}
+				else if (event.data.action == ThemeOptionsMenuAction.RESET)
+				{
+					initTheme();
+
+					TextCallout.show("Theme resetted to Default",
+					                 mNavigatorColorization,
+					                 null,
+					                 false);
+				}
+			}
+		}
+
+
+		private function applyFromString(value : String) : void
+		{
+			try
+			{
+				var _themeColors : UniflatMobileThemeColors = themeColors.fromJSON(value).toUniflatMobileThemeColors();
+
+				changeThemeColors(_themeColors);
+
+				TextCallout.show("Theme applied successfully",
+				                 mNavigatorColorization,
+				                 null,
+				                 false);
+			}
+			catch (error : Error)
+			{
+				var alert : Alert = Alert.show("Could not parse JSON!",
+				                               "Error",
+				                               null);
+
+
+				setTimeout(function () : void {
+					           alert.removeFromParent(true);
+				           },
+				           1500);
+			}
 		}
 	}
 }

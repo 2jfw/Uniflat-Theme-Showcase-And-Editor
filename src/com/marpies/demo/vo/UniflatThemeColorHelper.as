@@ -22,7 +22,7 @@ package com.marpies.demo.vo
 	import feathers.themes.UniflatMobileThemeColors;
 
 
-	public class ThemeColors
+	public class UniflatThemeColorHelper
 	{
 		public static var COLOR_STAGE : uint             = 0xEEF2F6;
 		public static var COLOR_BACKGROUND : uint        = 0xFFFFFF;
@@ -40,12 +40,12 @@ package com.marpies.demo.vo
 		public static var COLOR_ALTERNATIVE_CONTRAST_DISABLED : uint = 0xFFFFFF;
 
 
-		public function ThemeColors()
+		public function UniflatThemeColorHelper()
 		{
 		}
 
 
-		public function fromJSON(value : String) : ThemeColors
+		public function fromJSON(value : String) : UniflatThemeColorHelper
 		{
 			try
 			{
@@ -119,7 +119,7 @@ package com.marpies.demo.vo
 			}
 			catch (error : Error)
 			{
-
+				return null;
 			}
 
 			return this;
@@ -128,7 +128,51 @@ package com.marpies.demo.vo
 
 		public function toJSON() : String
 		{
-			return JSON.stringify(this);
+			var obj : Object = {
+
+				"colorMiscStage":                   toHTMLColor(COLOR_STAGE),
+				"colorMiscBackground":              toHTMLColor(COLOR_BACKGROUND),
+				"colorMiscContrast":                toHTMLColor(COLOR_CONTRAST),
+				"colorMiscContrastDisabled":        toHTMLColor(COLOR_CONTRAST_DISABLED),
+				"colorPrimary":                     toHTMLColor(COLOR_PRIMARY),
+				"colorPrimaryDisabled":             toHTMLColor(COLOR_PRIMARY_DISABLED),
+				"colorPrimaryContrast":             toHTMLColor(COLOR_PRIMARY_CONTRAST),
+				"colorPrimaryContrastDisabled":     toHTMLColor(COLOR_PRIMARY_CONTRAST_DISABLED),
+				"colorAlternative":                 toHTMLColor(COLOR_ALTERNATIVE),
+				"colorAlternativeDisabled":         toHTMLColor(COLOR_ALTERNATIVE_DISABLED),
+				"colorAlternativeContrast":         toHTMLColor(COLOR_ALTERNATIVE_CONTRAST),
+				"colorAlternativeContrastDisabled": toHTMLColor(COLOR_ALTERNATIVE_CONTRAST_DISABLED)
+			};
+
+			return JSON.stringify(obj,
+			                      null,
+			                      4);
+		}
+
+
+		public function toJSONFromUniflatMobileThemeColors(uniflatMobileThemeColors : UniflatMobileThemeColors) : String
+		{
+			var obj : Object = {
+
+				"colorMiscStage":            toHTMLColor(uniflatMobileThemeColors.colorStage),
+				"colorMiscBackground":       toHTMLColor(uniflatMobileThemeColors.colorBackground),
+				"colorMiscContrast":         toHTMLColor(uniflatMobileThemeColors.colorContrast),
+				"colorMiscContrastDisabled": toHTMLColor(uniflatMobileThemeColors.colorContrastDisabled),
+
+				"colorPrimary":                 toHTMLColor(uniflatMobileThemeColors.colorPrimary),
+				"colorPrimaryDisabled":         toHTMLColor(uniflatMobileThemeColors.colorPrimaryDisabled),
+				"colorPrimaryContrast":         toHTMLColor(uniflatMobileThemeColors.colorPrimaryContrast),
+				"colorPrimaryContrastDisabled": toHTMLColor(uniflatMobileThemeColors.colorPrimaryDisabled),
+
+				"colorAlternative":                 toHTMLColor(uniflatMobileThemeColors.colorAlt),
+				"colorAlternativeDisabled":         toHTMLColor(uniflatMobileThemeColors.colorAltDisabled),
+				"colorAlternativeContrast":         toHTMLColor(uniflatMobileThemeColors.colorAltContrast),
+				"colorAlternativeContrastDisabled": toHTMLColor(uniflatMobileThemeColors.colorAltContrastDisabled)
+			};
+
+			return JSON.stringify(obj,
+			                      null,
+			                      4);
 		}
 
 
@@ -159,6 +203,12 @@ package com.marpies.demo.vo
 		{
 			return parseInt(value.substr(1),
 			                16);
+		}
+
+
+		private function toHTMLColor(value : uint) : String
+		{
+			return "#" + value.toString(16);
 		}
 	}
 }

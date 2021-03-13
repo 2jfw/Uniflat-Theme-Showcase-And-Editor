@@ -3,7 +3,7 @@ package com.marpies.demo.screens
 	import com.marpies.demo.display.ThemeColorPicker;
 	import com.marpies.demo.enums.UniflatColorTarget;
 	import com.marpies.demo.events.ScreenEvent;
-	import com.marpies.demo.vo.ThemeColors;
+	import com.marpies.demo.vo.UniflatThemeColorHelper;
 	import com.marpies.utils.Assets;
 	import com.marpies.utils.VerticalLayoutBuilder;
 
@@ -98,7 +98,7 @@ package com.marpies.demo.screens
 		}
 
 
-		private function createColorSettings() : void
+		private function createColorSettings() : void // actually this function is too verbose but its for demo purpose only
 		{
 			var ids : Vector.<int> = new <int>[UniflatColorTarget.PRIMARY_MAIN,
 			                                   UniflatColorTarget.PRIMARY_DISABLED,
@@ -117,20 +117,20 @@ package com.marpies.demo.screens
 			];
 
 
-			var initialColor : Vector.<int> = new <int>[ThemeColors.COLOR_PRIMARY,
-			                                            ThemeColors.COLOR_PRIMARY_DISABLED,
-			                                            ThemeColors.COLOR_PRIMARY_CONTRAST,
-			                                            ThemeColors.COLOR_PRIMARY_CONTRAST_DISABLED,
+			var initialColor : Vector.<int> = new <int>[UniflatThemeColorHelper.COLOR_PRIMARY,
+			                                            UniflatThemeColorHelper.COLOR_PRIMARY_DISABLED,
+			                                            UniflatThemeColorHelper.COLOR_PRIMARY_CONTRAST,
+			                                            UniflatThemeColorHelper.COLOR_PRIMARY_CONTRAST_DISABLED,
 
-			                                            ThemeColors.COLOR_ALTERNATIVE,
-			                                            ThemeColors.COLOR_ALTERNATIVE_DISABLED,
-			                                            ThemeColors.COLOR_ALTERNATIVE_CONTRAST,
-			                                            ThemeColors.COLOR_ALTERNATIVE_CONTRAST_DISABLED,
+			                                            UniflatThemeColorHelper.COLOR_ALTERNATIVE,
+			                                            UniflatThemeColorHelper.COLOR_ALTERNATIVE_DISABLED,
+			                                            UniflatThemeColorHelper.COLOR_ALTERNATIVE_CONTRAST,
+			                                            UniflatThemeColorHelper.COLOR_ALTERNATIVE_CONTRAST_DISABLED,
 
-			                                            ThemeColors.COLOR_STAGE,
-			                                            ThemeColors.COLOR_BACKGROUND,
-			                                            ThemeColors.COLOR_CONTRAST,
-			                                            ThemeColors.COLOR_CONTRAST_DISABLED
+			                                            UniflatThemeColorHelper.COLOR_STAGE,
+			                                            UniflatThemeColorHelper.COLOR_BACKGROUND,
+			                                            UniflatThemeColorHelper.COLOR_CONTRAST,
+			                                            UniflatThemeColorHelper.COLOR_CONTRAST_DISABLED
 			];
 
 			var labels : Vector.<String> = new <String>["MAIN",

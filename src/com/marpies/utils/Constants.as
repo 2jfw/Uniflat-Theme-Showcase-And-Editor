@@ -1,6 +1,8 @@
 package com.marpies.utils
 {
 
+	import com.marpies.demo.vo.UniflatThemeColorHelper;
+
 	import feathers.themes.UniflatMobileThemeColors;
 
 	import starling.core.Starling;
@@ -17,6 +19,7 @@ package com.marpies.utils
 		public static const IPAD_HEIGHT : int = 384;
 
 		public static var uniflatMobileThemeColors : UniflatMobileThemeColors;
+		public static var themeColors : UniflatThemeColorHelper;
 
 
 		public static function init(stageWidth : int,
