@@ -17,6 +17,7 @@ package com.marpies.demo.screens
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayoutData;
 	import feathers.themes.BaseUniflatMobileTheme;
+	import feathers.themes.UniflatMobileThemeColors;
 
 	import flash.text.TextFormatAlign;
 	import flash.text.engine.ElementFormat;
@@ -39,6 +40,8 @@ package com.marpies.demo.screens
 		                                                                                   FontLookup.EMBEDDED_CFF),
 		                                                               20,
 		                                                               0xcccccc);
+
+		private var _colorPickers : Vector.<ThemeColorPicker> = new Vector.<ThemeColorPicker>();
 
 
 		public function ThemeColorConfigurationScreen()
@@ -67,7 +70,7 @@ package com.marpies.demo.screens
 
 			if (__header && __header.rightItems)
 			{
-				__header.removeChild(mMenuButton);
+				__header.removeChild(mMenuButton); // this will prevent the button from getting disposed
 				__header.rightItems = null;
 			}
 
@@ -165,20 +168,20 @@ package com.marpies.demo.screens
 
 			var label : Label;
 			var themeColorPicker : ThemeColorPicker;
+			var labelLayoutData : AnchorLayoutData;
 			var len : int = labels.length;
 
 			for (var i : int = 0; i < len; i++) // a little dirty
 			{
 				if (i == 0 || i == 4 || i == 8)
 				{
-					label = new Label();
+					labelLayoutData              = new AnchorLayoutData();
+					labelLayoutData.percentWidth = 100;
 
+					label                     = new Label();
 					label.textRendererFactory = getTextRenderer;
-
-					var labelLayoutData : AnchorLayoutData = new AnchorLayoutData();
-					labelLayoutData.percentWidth           = 100;
-					label.layoutData                       = labelLayoutData;
-					label.paddingRight                     = 10;
+					label.layoutData          = labelLayoutData;
+					label.paddingRight        = 10;
 
 					addChild(label);
 
@@ -205,11 +208,31 @@ package com.marpies.demo.screens
 				themeColorPicker.addEventListener(Event.CHANGE,
 				                                  onChangeColor);
 
+				_colorPickers[i] = themeColorPicker;
+
 				addChild(themeColorPicker);
 			}
+		}
 
-			label      = new Label();
-			label.text = "Callout";
+
+		public function applyFromTheme(value : UniflatMobileThemeColors) : void
+		{
+			// this is getting a bit dirty now by simply assiging colors to display list object by index..
+
+			_colorPickers[0].color = value.colorPrimary;
+			_colorPickers[1].color = value.colorPrimaryDisabled;
+			_colorPickers[2].color = value.colorPrimaryContrast;
+			_colorPickers[3].color = value.colorPrimaryContrastDisabled;
+
+			_colorPickers[4].color = value.colorAlt;
+			_colorPickers[5].color = value.colorAltDisabled;
+			_colorPickers[6].color = value.colorAltContrast;
+			_colorPickers[7].color = value.colorAltContrastDisabled;
+
+			_colorPickers[8].color  = value.colorStage;
+			_colorPickers[9].color  = value.colorBackground;
+			_colorPickers[10].color = value.colorContrast;
+			_colorPickers[11].color = value.colorContrastDisabled;
 		}
 
 

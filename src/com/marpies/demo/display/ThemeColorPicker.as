@@ -90,7 +90,6 @@ package com.marpies.demo.display
 
 
 			_layoutGroup = new LayoutGroup();
-			//			layoutGroup.autoSizeMode      = AutoSizeMode.CONTENT;
 
 			var horizontalLayout : HorizontalLayout = new HorizontalLayout();
 			horizontalLayout.gap                    = 10;
@@ -116,16 +115,24 @@ package com.marpies.demo.display
 			_layoutGroup.addChild(label);
 
 
-			_colorPicker       = new ColorPicker();
-			_colorPicker.color = _initialValue;
+			_colorPicker = new ColorPicker();
+			color        = _initialValue;
 
 			_layoutGroup.addChild(_colorPicker);
 
 			addChild(_layoutGroup);
+		}
 
+
+		public function set color(value : uint) : void
+		{
+			_colorPicker.colorText.removeEventListener(Event.CHANGE,
+			                                           onChangeColor); // we do not want to dispatch a change event here
+
+			_colorPicker.color = value;
 
 			_colorPicker.colorText.addEventListener(Event.CHANGE,
-			                                        onChangeColor); // colorpicker itself should dispatch change event rather than subcomponent
+			                                        onChangeColor); // now we want to listen to color change again
 		}
 
 

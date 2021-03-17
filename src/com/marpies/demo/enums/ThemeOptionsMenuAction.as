@@ -22,13 +22,16 @@ package com.marpies.demo.enums
 	public class ThemeOptionsMenuAction
 	{
 
-		public static const LOAD_JSON_CLIPBOARD : int = 1;
-		public static const SAVE_JSON_CLIPBOARD : int = 2;
+		public static const LOAD_JSON_CLIPBOARD : int  = 1;
+		public static const LOAD_CLASS_CLIPBOARD : int = 2;
+		public static const SAVE_JSON_CLIPBOARD : int  = 3;
+		public static const SAVE_CLASS_CLIPBOARD : int = 4;
 
-		public static const LOAD_JSON_DISK : int = 3;
-		public static const SAVE_JSON_DISK : int = 4;
+		public static const LOAD_JSON_DISK : int = 5;
+		public static const SAVE_JSON_DISK : int = 6;
 
-		public static const RESET : int = 5;
+
+		public static const RESET : int = 7;
 
 
 		public function ThemeOptionsMenuAction()

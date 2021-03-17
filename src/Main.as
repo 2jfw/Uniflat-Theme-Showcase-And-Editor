@@ -47,13 +47,8 @@ package
 
 	import flash.desktop.Clipboard;
 	import flash.desktop.ClipboardFormats;
-	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
-	import flash.filesystem.File;
-	import flash.filesystem.FileMode;
-	import flash.filesystem.FileStream;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
 	import flash.utils.ByteArray;
@@ -85,6 +80,8 @@ package
 		                                                                            1); // this timer prevents too frequent updates. Slightly hackish attempt..
 		private var colorChangeVO : ColorChangeVO;
 		private var fileRef : FileReference;
+		private var textTypeFilter : FileFilter                         = new FileFilter("JSON Files (*.json)",
+		                                                                                 "*.json;");
 
 
 		public function Main()
@@ -101,103 +98,6 @@ package
 		}
 
 
-		private function setupFileReference() : void
-		{
-			fileRef = new FileReference();
-			fileRef.addEventListener(flash.events.Event.SELECT,
-			                         onFileSelected);
-			fileRef.addEventListener(flash.events.Event.CANCEL,
-			                         onCancel);
-			fileRef.addEventListener(IOErrorEvent.IO_ERROR,
-			                         onIOError);
-			fileRef.addEventListener(SecurityErrorEvent.SECURITY_ERROR,
-			                         onSecurityError);
-			fileRef.addEventListener(Event.COMPLETE,
-			                         onComplete);
-		}
-
-
-		public function onFileSelected(event : flash.events.Event) : void
-		{
-			//			fileRef.load();
-			var file : File         = File.desktopDirectory.resolvePath(fileRef.name);
-			var stream : FileStream = new FileStream();
-			stream.open(file,
-			            FileMode.WRITE);
-			stream.writeUTFBytes(Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors));
-			stream.close();
-		}
-
-
-		public function onCancel(evt : flash.events.Event) : void
-		{
-			trace("The browse request was canceled by the user.");
-		}
-
-
-		public function onComplete(evt : flash.events.Event) : void
-		{
-			trace("File was successfully loaded.");
-
-			var bytes : ByteArray = fileRef.data;
-			var str : String      = bytes.readUTFBytes(bytes.length);
-
-			applyFromString(str);
-		}
-
-
-		public function saveFile() : void
-		{
-			fileRef.save(Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors),
-			             "UniflatTheme.json");
-		}
-
-
-		public function onSaveFileSelected(evt : flash.events.Event) : void
-		{
-			fileRef.addEventListener(Event.COMPLETE,
-			                         onSaveComplete);
-			fileRef.addEventListener(Event.CANCEL,
-			                         onSaveCancel);
-		}
-
-
-		public function onSaveComplete(evt : flash.events.Event) : void
-		{
-			fileRef.removeEventListener(Event.COMPLETE,
-			                            onSaveComplete);
-			fileRef.removeEventListener(Event.CANCEL,
-			                            onSaveCancel);
-		}
-
-
-		public function onSaveCancel(evt : flash.events.Event) : void
-		{
-			fileRef.removeEventListener(Event.COMPLETE,
-			                            onSaveComplete);
-			fileRef.removeEventListener(Event.CANCEL,
-			                            onSaveCancel);
-		}
-
-
-		public function onIOError(evt : IOErrorEvent) : void
-		{
-			fileRef.removeEventListener(Event.COMPLETE,
-			                            onSaveComplete);
-			fileRef.removeEventListener(Event.CANCEL,
-			                            onSaveCancel);
-		}
-
-
-		public function onSecurityError(evt : flash.events.Event) : void
-		{
-			fileRef.removeEventListener(Event.COMPLETE,
-			                            onSaveComplete);
-			fileRef.removeEventListener(Event.CANCEL,
-			                            onSaveCancel);
-		}
-
-
 		private function initTheme() : void
 		{
 			// Setting initial values seems to fix an issue where components would become white when changing colors
@@ -205,7 +105,7 @@ package
 		}
 
 
-		public function changeThemeColors(value : UniflatMobileThemeColors = null) : void
+		private function changeThemeColors(value : UniflatMobileThemeColors = null) : void
 		{
 			if (value)
 			{
@@ -224,7 +124,18 @@ package
 		}
 
 
-		public function resetAllStyleProviders(control : Sprite) : void
+		private function resetThemeColorConfigurationScreen() : void
+		{
+			if (mNavigatorColorization)
+			{
+				var screen : ThemeColorConfigurationScreen = mNavigatorColorization.getChildAt(0) as ThemeColorConfigurationScreen;
+
+				screen.applyFromTheme(uniflatMobileThemeColors);
+			}
+		}
+
+
+		private function resetAllStyleProviders(control : Sprite) : void
 		{
 			var len : int = control.numChildren;
 			var childControl : FeathersControl;
@@ -432,6 +343,8 @@ package
 		{
 			if (event.data) // when event.data is not null, a user-triggered color change has occurred
 			{
+
+
 				if (event.data.action == ThemeOptionsMenuAction.SAVE_JSON_CLIPBOARD)
 				{
 					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT,
@@ -442,11 +355,22 @@ package
 					                 null,
 					                 false);
 				}
+				if (event.data.action == ThemeOptionsMenuAction.SAVE_CLASS_CLIPBOARD)
+				{
+					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT,
+					                                   Constants.themeColors.toUniflatMobileThemeColorsClassString(Constants.uniflatMobileThemeColors));
+
+					TextCallout.show("Theme copied to Clipboard as JSON",
+					                 mNavigatorColorization,
+					                 null,
+					                 false);
+				}
 				else if (event.data.action == ThemeOptionsMenuAction.SAVE_JSON_DISK)
 				{
-					var textTypeFilter : FileFilter = new FileFilter("JSON Files (*.json)",
-					                                                 "*.json;");
-					fileRef.browse([textTypeFilter]);
+					fileRef.addEventListener(flash.events.Event.COMPLETE,
+					                         onCompleteSave);
+
+					saveFile();
 				}
 				else if (event.data.action == ThemeOptionsMenuAction.LOAD_JSON_CLIPBOARD)
 				{
@@ -454,8 +378,9 @@ package
 				}
 				else if (event.data.action == ThemeOptionsMenuAction.LOAD_JSON_DISK)
 				{
-					var textTypeFilter : FileFilter = new FileFilter("JSON Files (*.json)",
-					                                                 "*.json;");
+					fileRef.addEventListener(flash.events.Event.SELECT,
+					                         onSelectFile);
+
 					fileRef.browse([textTypeFilter]);
 				}
 				else if (event.data.action == ThemeOptionsMenuAction.RESET)
@@ -478,6 +403,7 @@ package
 				var _themeColors : UniflatMobileThemeColors = themeColors.fromJSON(value).toUniflatMobileThemeColors();
 
 				changeThemeColors(_themeColors);
+				resetThemeColorConfigurationScreen();
 
 				TextCallout.show("Theme applied successfully",
 				                 mNavigatorColorization,
@@ -496,6 +422,76 @@ package
 				           },
 				           1500);
 			}
+		}
+
+
+		////////////////////////////////////////////////
+		// File operations
+		////////////////////////////////////////////////
+
+
+		private function setupFileReference() : void
+		{
+			fileRef = new FileReference();
+
+			fileRef.addEventListener(flash.events.Event.CANCEL,
+			                         onCancel);
+		}
+
+
+		private function onCancel(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(flash.events.Event.SELECT,
+			                            onSelectFile);
+
+			fileRef.removeEventListener(flash.events.Event.COMPLETE,
+			                            onCompleteLoad);
+
+			fileRef.removeEventListener(flash.events.Event.COMPLETE,
+			                            onCompleteSave);
+		}
+
+
+		private function onCompleteLoad(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(flash.events.Event.COMPLETE,
+			                            onCompleteLoad);
+
+			var bytes : ByteArray = fileRef.data;
+			var str : String      = bytes.readUTFBytes(bytes.length);
+
+			applyFromString(str);
+		}
+
+
+		private function onSelectFile(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(flash.events.Event.SELECT,
+			                            onSelectFile);
+
+			fileRef.addEventListener(flash.events.Event.COMPLETE,
+			                         onCompleteLoad);
+
+			fileRef.load();
+		}
+
+
+		private function onCompleteSave(evt : flash.events.Event) : void
+		{
+			fileRef.removeEventListener(flash.events.Event.COMPLETE,
+			                            onCompleteSave);
+
+			TextCallout.show("Theme saved to Disk",
+			                 mNavigatorColorization,
+			                 null,
+			                 false);
+		}
+
+
+		private function saveFile() : void
+		{
+			fileRef.save(Constants.themeColors.toJSONFromUniflatMobileThemeColors(Constants.uniflatMobileThemeColors),
+			             "UniflatTheme.json");
 		}
 	}
 }

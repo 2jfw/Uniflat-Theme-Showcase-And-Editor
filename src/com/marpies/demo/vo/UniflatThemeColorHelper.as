@@ -162,7 +162,7 @@ package com.marpies.demo.vo
 				"colorPrimary":                 toHTMLColor(uniflatMobileThemeColors.colorPrimary),
 				"colorPrimaryDisabled":         toHTMLColor(uniflatMobileThemeColors.colorPrimaryDisabled),
 				"colorPrimaryContrast":         toHTMLColor(uniflatMobileThemeColors.colorPrimaryContrast),
-				"colorPrimaryContrastDisabled": toHTMLColor(uniflatMobileThemeColors.colorPrimaryDisabled),
+				"colorPrimaryContrastDisabled": toHTMLColor(uniflatMobileThemeColors.colorPrimaryContrastDisabled),
 
 				"colorAlternative":                 toHTMLColor(uniflatMobileThemeColors.colorAlt),
 				"colorAlternativeDisabled":         toHTMLColor(uniflatMobileThemeColors.colorAltDisabled),
@@ -173,6 +173,32 @@ package com.marpies.demo.vo
 			return JSON.stringify(obj,
 			                      null,
 			                      4);
+		}
+
+
+		public function toUniflatMobileThemeColorsClassString(uniflatMobileThemeColors : UniflatMobileThemeColors) : String
+		{
+			var str : String = "var colors : UniflatMobileThemeColors = UniflatMobileThemeColors.Builder";
+
+
+			str += ".setColorStage(" + uniflatMobileThemeColors.colorStage + ")";
+			str += ".setColorBackground(" + uniflatMobileThemeColors.colorBackground + ")";
+			str += ".setColorContrast(" + uniflatMobileThemeColors.colorContrast + ")";
+			str += ".setColorContrastDisabled(" + uniflatMobileThemeColors.colorContrastDisabled + ")";
+
+			str += ".setColorPrimary(" + uniflatMobileThemeColors.colorPrimary + ")";
+			str += ".setColorPrimaryDisabled(" + uniflatMobileThemeColors.colorPrimaryDisabled + ")";
+			str += ".setColorPrimaryContrast(" + uniflatMobileThemeColors.colorPrimaryContrast + ")";
+			str += ".setColorPrimaryContrastDisabled(" + uniflatMobileThemeColors.colorPrimaryContrastDisabled + ")";
+
+			str += ".setColorAlt(" + uniflatMobileThemeColors.colorAlt + ")";
+			str += ".setColorAltDisabled(" + uniflatMobileThemeColors.colorAltDisabled + ")";
+			str += ".setColorAltContrast(" + uniflatMobileThemeColors.colorAltContrast + ")";
+			str += ".setColorAltContrastDisabled(" + uniflatMobileThemeColors.colorAltContrastDisabled + ")";
+
+			str += ".build();";
+
+			return str;
 		}
 
 
