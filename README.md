@@ -84,6 +84,11 @@ publish by the author marpies.
 
 - Please feel free to make suggestions for additional features or give feedback
 
+## Disclaimer
+
+- This project was source-code-wise mostly NOT programmed in a suggestible or recommended way or manner and may/will
+  contain logic errors and/or better-avoid-this code constructs
+
 
 
 
