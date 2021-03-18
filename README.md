@@ -1,6 +1,7 @@
 # Uniflat-Theme-Showcase
 
-This is the Adobe / Harman AIR preview of the as3 Feathers / Starling "Uniflat Theme" by marpies.
+This is the Adobe / Harman AIR preview of the as3 Starling / Feathers Uniflat Mobile Theme for Android and iOS,
+originally created by marpies.
 
 This component showcase has an inbuild theme color editor with the possibilities to
 
@@ -26,11 +27,17 @@ It also features the helper and util classes for using JSON embedded themes:
 
 ## Compatibility
 
-Compatible with latest Starling 2.6 and Feathers 4.1.1
+- Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ### Releases
 
 - Windows x86 EXE file (AIR Captive Runtime)
+
+### Download Theme
+
+- Theme (Sources / Download): https://github.com/marpies/uniflat-theme
+
+- Website: https://feathers.marpies.com/themes/uniflat/
 
 ### Preview
 
@@ -61,14 +68,12 @@ Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ### Compile
 
-- Requires as3 Starling, Feathers and ColorPicker Extension by pol2095
+- Requires as3 Starling, Feathers and ColorPicker Extension by
+  pol2095 (https://github.com/pol2095/Feathers-Extension-ColorPicker)
 
 ### Credits
 
 Author: https://github.com/marpies
 
-Theme: https://github.com/marpies/uniflat-theme
 
-Website: https://feathers.marpies.com/themes/uniflat/
 
-ColorPicker Extension: https://github.com/pol2095/Feathers-Extension-ColorPicker
