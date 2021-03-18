@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="Uniflat-Theme-Showcase Desktop">
+  <component name="FlexBuildConfigurationManager" active="Uniflat-Theme-Showcase-Editor Desktop">
     <configurations>
-      <configuration name="Uniflat-Theme-Showcase Desktop" target-platform="Desktop" pure-as="true" main-class="Startup" output-file="Uniflat-Theme-Showcase.swf" output-folder="$MODULE_DIR$/out/production">
+      <configuration name="Uniflat-Theme-Showcase-Editor Desktop" target-platform="Desktop" pure-as="true" main-class="Startup" output-file="Uniflat-Theme-Showcase-Editor.swf" output-folder="$MODULE_DIR$/out/production">
         <dependencies>
           <entries>
             <entry library-id="216a4905-dd2a-4a29-a388-80a867ff559e">

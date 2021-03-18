@@ -1,4 +1,4 @@
-# Uniflat-Theme-Showcase
+# Uniflat-Theme-Showcase with Editor for exporting and importing Themes
 
 This is the Adobe / Harman AIR preview of the as3 Starling / Feathers Uniflat Mobile Theme for Android and iOS,
 originally created by marpies.

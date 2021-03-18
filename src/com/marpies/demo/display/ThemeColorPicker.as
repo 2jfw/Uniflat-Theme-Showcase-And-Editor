@@ -87,7 +87,7 @@ package com.marpies.demo.display
 			var background : Quad = new Quad(600,
 			                                 70,
 			                                 0xFFFFFF);
-			background.alpha      = .3;
+			background.alpha      = .5;
 			addChild(background);
 
 

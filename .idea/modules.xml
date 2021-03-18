@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Uniflat-Theme-Showcase.iml" filepath="$PROJECT_DIR$/Uniflat-Theme-Showcase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Uniflat-Theme-Showcase-And-Editor.iml" filepath="$PROJECT_DIR$/Uniflat-Theme-Showcase-And-Editor.iml" />
     </modules>
   </component>
 </project>
