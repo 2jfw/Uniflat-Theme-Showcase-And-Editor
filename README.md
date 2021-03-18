@@ -78,7 +78,12 @@ publish by the author marpies.
 
 ## Credits
 
-Author: https://github.com/marpies
+- Author: https://github.com/marpies
+
+## Suggestions / Feedback
+
+- Please feel free to make suggestions for additional features or give feedback
+
 
 
 
