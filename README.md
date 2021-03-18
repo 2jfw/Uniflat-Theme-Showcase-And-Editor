@@ -31,19 +31,19 @@ publish by the author marpies.
 
 ## Compatibility
 
-- Compatible with latest Starling 2.6 and Feathers 4.1.1
+- Compatible with latest Starling 2.6 and Feathers 4.1.1 and Adobe / Harman AIR SDK
 
-### Releases
+## Releases
 
 - Windows x86 EXE file (AIR Captive Runtime)
 
-### Download Theme
+## Download Theme
 
 - Theme (Sources / Download): https://github.com/marpies/uniflat-theme
 
 - Website: https://feathers.marpies.com/themes/uniflat/
 
-### Preview
+## Preview
 
 ![](preview/Editor01.png?raw=true)
 ![](preview/Editor02.png?raw=true)
@@ -52,7 +52,7 @@ publish by the author marpies.
 ![](preview/Editor05.png?raw=true)
 ![](preview/Editor06.png?raw=true)
 
-### Preview Theme (standalone)
+## Preview Theme (standalone)
 
 ![](preview/Screenshot00.png?raw=true)
 ![](preview/Screenshot01.png?raw=true)
@@ -71,12 +71,12 @@ publish by the author marpies.
 ![](preview/Screenshot14.png?raw=true)
 ![](preview/Screenshot15.png?raw=true)
 
-### Compile
+## Compile
 
 - Requires as3 Starling, Feathers and ColorPicker Extension by
   pol2095 (https://github.com/pol2095/Feathers-Extension-ColorPicker)
 
-### Credits
+## Credits
 
 Author: https://github.com/marpies
 
