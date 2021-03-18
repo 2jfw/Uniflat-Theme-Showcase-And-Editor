@@ -232,7 +232,7 @@ package com.marpies.demo.vo
 		}
 
 
-		private function toHTMLColor(value : uint) : String
+		private static function toHTMLColor(value : uint) : String
 		{
 			return "#" + value.toString(16);
 		}

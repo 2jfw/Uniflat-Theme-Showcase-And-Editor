@@ -2,14 +2,42 @@
 
 This is the Adobe / Harman AIR preview of the as3 Feathers / Starling "Uniflat Theme" by marpies.
 
+This component showcase has an inbuild theme color editor with the possibilities to
+
+    - Copy JSON to Clipboard
+    
+    - Copy as3 Code to Clipboard
+
+    - Save JSON to Disk
+
+    - Import JSON from Clipboard
+
+    - Load JSON from Disk
+
+    - Reset to Default
+
+It also features the helper and util classes for using JSON embedded themes:
+
+    - see folder "assets/json"
+
+    - see class "UniflatThemeColorHelper.as" 
+
+    - see function "initTheme()" at "Main.as"
+
 Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ### Releases
 
 - Windows x86 EXE file (AIR Captive Runtime)
-- Android APK (AIR Captive Runtime)
 
 ### Preview
+
+![](preview/Editor01.png?raw=true)
+![](preview/Editor02.png?raw=true)
+![](preview/Editor03.png?raw=true)
+![](preview/Editor04.png?raw=true)
+
+### Preview Theme (standalone)
 
 ![](preview/Screenshot00.png?raw=true)
 ![](preview/Screenshot01.png?raw=true)
