@@ -101,6 +101,14 @@ package
 		private function initTheme() : void
 		{
 			// Setting initial values seems to fix an issue where components would become white when changing colors
+
+
+			// #1 this is how you would apply a theme copied as as3 class:
+			//	var colors : UniflatMobileThemeColors = UniflatMobileThemeColors.Builder.setColorStage(16744098).setColorBackground(16449455).setColorContrast(15449341).setColorContrastDisabled(4456803).setColorPrimary(6352124).setColorPrimaryDisabled(16507645).setColorPrimaryContrast(16656427).setColorPrimaryContrastDisabled(157692).setColorAlt(3080794).setColorAltDisabled(14679791).setColorAltContrast(16284415).setColorAltContrastDisabled(38476).build();
+			//	changeThemeColors(colors);
+
+
+			// #2 this is the default style being applied from an embedded JSON file
 			changeThemeColors(themeColors.fromJSON(new DEFAULT_COLORS_JSON()).toUniflatMobileThemeColors());
 		}
 
@@ -121,6 +129,7 @@ package
 			theme = new UniflatMobileThemeWithIcons(value);
 
 			resetAllStyleProviders(this);
+			resetThemeColorConfigurationScreen();
 		}
 
 
@@ -250,6 +259,8 @@ package
 
 			layoutGroup.addChild(mDrawersComponents);
 			layoutGroup.addChild(mDrawersColors);
+
+			resetThemeColorConfigurationScreen();
 		}
 
 
@@ -360,7 +371,7 @@ package
 					Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT,
 					                                   Constants.themeColors.toUniflatMobileThemeColorsClassString(Constants.uniflatMobileThemeColors));
 
-					TextCallout.show("Theme copied to Clipboard as JSON",
+					TextCallout.show("Theme copied to Clipboard as Class",
 					                 mNavigatorColorization,
 					                 null,
 					                 false);
@@ -403,7 +414,6 @@ package
 				var _themeColors : UniflatMobileThemeColors = themeColors.fromJSON(value).toUniflatMobileThemeColors();
 
 				changeThemeColors(_themeColors);
-				resetThemeColorConfigurationScreen();
 
 				TextCallout.show("Theme applied successfully",
 				                 mNavigatorColorization,

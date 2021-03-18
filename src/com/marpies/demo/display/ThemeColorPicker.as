@@ -84,9 +84,11 @@ package com.marpies.demo.display
 		{
 			super.initialize();
 
-			addChild(new Quad(600,
-			                  70,
-			                  0xc4c4c4));
+			var background : Quad = new Quad(600,
+			                                 70,
+			                                 0xFFFFFF);
+			background.alpha      = .3;
+			addChild(background);
 
 
 			_layoutGroup = new LayoutGroup();
@@ -111,13 +113,10 @@ package com.marpies.demo.display
 			var label : Label = new Label();
 			label.styleNameList.add(Label.ALTERNATE_STYLE_NAME_HEADING);
 			label.text = _label;
-
 			_layoutGroup.addChild(label);
 
 
 			_colorPicker = new ColorPicker();
-			color        = _initialValue;
-
 			_layoutGroup.addChild(_colorPicker);
 
 			addChild(_layoutGroup);

@@ -1,0 +1,14 @@
+{
+  "colorAlternativeContrastDisabled": "#964c",
+  "colorPrimary": "#60ecfc",
+  "colorPrimaryDisabled": "#19b600",
+  "colorMiscStage": "#19022b",
+  "colorPrimaryContrast": "#fe282b",
+  "colorMiscBackground": "#faffaf",
+  "colorPrimaryContrastDisabled": "#267fc",
+  "colorMiscContrast": "#ebbcfd",
+  "colorMiscContrastDisabled": "#440163",
+  "colorAlternative": "#2f025a",
+  "colorAlternativeDisabled": "#dffeef",
+  "colorAlternativeContrast": "#f87aff"
+}

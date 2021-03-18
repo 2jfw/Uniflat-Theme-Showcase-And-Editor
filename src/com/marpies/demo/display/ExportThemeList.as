@@ -53,12 +53,17 @@ package com.marpies.demo.display
 					[
 						{
 							action: ThemeOptionsMenuAction.SAVE_JSON_CLIPBOARD,
-							label:  "Export JSON to Clipboard",
+							label:  "Copy JSON to Clipboard",
+							icon:   Assets.getTexture("content-copy-icon")
+						},
+						{
+							action: ThemeOptionsMenuAction.SAVE_CLASS_CLIPBOARD,
+							label:  "Copy as3 Code to Clipboard",
 							icon:   Assets.getTexture("content-copy-icon")
 						},
 						{
 							action: ThemeOptionsMenuAction.SAVE_JSON_DISK,
-							label:  "Export JSON to Disk",
+							label:  "Save JSON to Disk",
 							icon:   Assets.getTexture("save-icon")
 						},
 						{
@@ -68,7 +73,7 @@ package com.marpies.demo.display
 						},
 						{
 							action: ThemeOptionsMenuAction.LOAD_JSON_DISK,
-							label:  "Import JSON from Disk",
+							label:  "Load JSON from Disk",
 							icon:   Assets.getTexture("open-in-new-icon")
 						},
 						{

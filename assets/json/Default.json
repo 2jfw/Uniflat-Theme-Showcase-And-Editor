@@ -1,14 +1,14 @@
 {
-  "colorMiscStage": "#EEF2F6",
-  "colorMiscBackground": "#FFFFFF",
-  "colorMiscContrast": "#2B333A",
-  "colorMiscContrastDisabled": "#B1B4B7",
-  "colorPrimary": "#07C1BB",
-  "colorPrimaryDisabled": "#B4ECEA",
-  "colorPrimaryContrast": "#FFFFFF",
-  "colorPrimaryContrastDisabled": "#FFFFFF",
-  "colorAlternative": "#FF2D55",
-  "colorAlternativeDisabled": "#FFC0CC",
-  "colorAlternativeContrast": "#FFFFFF",
-  "colorAlternativeContrastDisabled": "#FFFFFF"
+  "colorAlternativeDisabled": "#ffc0cc",
+  "colorAlternativeContrast": "#ffffff",
+  "colorAlternativeContrastDisabled": "#ffffff",
+  "colorPrimary": "#7c1bb",
+  "colorPrimaryDisabled": "#b4ecea",
+  "colorMiscStage": "#eef2f6",
+  "colorPrimaryContrast": "#ffffff",
+  "colorMiscBackground": "#ffffff",
+  "colorPrimaryContrastDisabled": "#ffffff",
+  "colorMiscContrast": "#2b333a",
+  "colorMiscContrastDisabled": "#b1b4b7",
+  "colorAlternative": "#ff2d55"
 }
