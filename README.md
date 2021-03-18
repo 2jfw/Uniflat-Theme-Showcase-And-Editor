@@ -25,9 +25,9 @@ It also features the helper and util classes for using JSON embedded themes:
 
     - see function "initTheme()" at "Main.as"
 
-The source code for the demo / component showcase, which "was" available
-at https://feathers.marpies.com/themes/uniflat/preview/ was kindly provided and given permission to use and publish by
-the author marpies.
+The source code for the demo / component showcase, which "was" available as a flash browser plugin and including an
+editor at https://feathers.marpies.com/themes/uniflat/preview/ was kindly provided and given permission to use and
+publish by the author marpies.
 
 ## Compatibility
 
