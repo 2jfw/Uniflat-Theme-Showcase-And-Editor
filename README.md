@@ -46,6 +46,7 @@ It also features the helper and util classes for using JSON embedded themes:
 ![](preview/Editor03.png?raw=true)
 ![](preview/Editor04.png?raw=true)
 ![](preview/Editor05.png?raw=true)
+![](preview/Editor06.png?raw=true)
 
 ### Preview Theme (standalone)
 
