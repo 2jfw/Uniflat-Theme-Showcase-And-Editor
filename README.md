@@ -24,6 +24,8 @@ It also features the helper and util classes for using JSON embedded themes:
 
     - see function "initTheme()" at "Main.as"
 
+## Compatibility
+
 Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ### Releases
@@ -36,6 +38,7 @@ Compatible with latest Starling 2.6 and Feathers 4.1.1
 ![](preview/Editor02.png?raw=true)
 ![](preview/Editor03.png?raw=true)
 ![](preview/Editor04.png?raw=true)
+![](preview/Editor05.png?raw=true)
 
 ### Preview Theme (standalone)
 
@@ -58,7 +61,7 @@ Compatible with latest Starling 2.6 and Feathers 4.1.1
 
 ### Compile
 
-- Requires as3 Starling and Feathers
+- Requires as3 Starling, Feathers and ColorPicker Extension by pol2095
 
 ### Credits
 
@@ -67,3 +70,5 @@ Author: https://github.com/marpies
 Theme: https://github.com/marpies/uniflat-theme
 
 Website: https://feathers.marpies.com/themes/uniflat/
+
+ColorPicker Extension: https://github.com/pol2095/Feathers-Extension-ColorPicker
