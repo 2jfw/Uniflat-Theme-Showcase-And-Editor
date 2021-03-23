@@ -1,7 +1,7 @@
 # Uniflat-Theme-Showcase with Editor for exporting and importing Themes
 
 This is the Adobe / Harman AIR preview of the as3 Starling / Feathers Uniflat Mobile Theme for Android and iOS,
-originally created by marpies.
+originally created by marpies (https://github.com/marpies).
 
 This component showcase has an inbuild theme color editor with the possibilities to
 
@@ -19,11 +19,11 @@ This component showcase has an inbuild theme color editor with the possibilities
 
 It also features the helper and util classes for using JSON embedded themes:
 
-    - see folder "assets/json"
+    - See folder "assets/json"
 
-    - see class "UniflatThemeColorHelper.as" 
+    - See class "UniflatThemeColorHelper.as" 
 
-    - see function "initTheme()" at "Main.as"
+    - See function "initTheme()" at "Main.as"
 
 The source code for the demo / component showcase, which "was" available as a flash browser plugin and including an
 editor at https://feathers.marpies.com/themes/uniflat/preview/ was kindly provided and given permission to use and
